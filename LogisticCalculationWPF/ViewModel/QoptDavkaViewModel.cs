@@ -25,12 +25,7 @@ namespace LogisticCalculationWPF.ViewModel
         public QoptDavkaViewModel()
         {
             VypocitejQoptBt = new RelayCommand(Kalkulace);
-            Davka = null;
-            Npz = null;
-            Ns = null;
-            Nj = null;
-            Obdobi = null;
-
+            vysledek = "";
         }
         public double? Davka 
         { 
@@ -67,7 +62,8 @@ namespace LogisticCalculationWPF.ViewModel
             VysledekQopt = 
                 $"Optimální dávka: {kalkulace.Qopt()}\r\n" +
                 $"Počet dávek: {kalkulace.PocetDavek()}\r\n" +
-                $"Periodicita Zadávání: {kalkulace.PeriodicitaZadavani()} dnů (360 dnů)";
+                $"Periodicita Zadávání: {kalkulace.PeriodicitaZadavani()} dnů (360 dnů)\r\n" +
+                $"Celkové náklady: {kalkulace.CelkoveNaklady()} CZK";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

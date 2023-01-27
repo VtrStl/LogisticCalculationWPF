@@ -18,26 +18,32 @@ namespace LogisticCalculationWPF.Model
         public KalkulaceModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
         { 
             VelikostPoptavky= velikostPoptavky;
-            Npz= npz;
-            Ns= ns;
-            Nj= nj;
-            Obdobi= obdobi;
+            Npz = npz;
+            Ns = ns;
+            Nj = nj;
+            Obdobi = obdobi;
         }
 
-        public double? Qopt()
+        public double Qopt()
         {
-            return Math.Ceiling(Math.Sqrt(2 * (VelikostPoptavky ?? 0) * (Npz ?? 0)) / Math.Sqrt((Nj ?? 0) * (Ns ?? 0) * (Obdobi ?? 0)));
+            return Math.Ceiling(Math.Sqrt(2 * (VelikostPoptavky?? 0) * (Npz??0)) / Math.Sqrt((Nj??0) * (Ns??0) * (Obdobi??0)));
         }
         
-        public double? PocetDavek()
+        public double PocetDavek()
         {
-            return Math.Ceiling((VelikostPoptavky ?? 0) / (Qopt() ?? 0));
+            return Math.Ceiling((VelikostPoptavky??0) / (Qopt()));
 
         }
         
-        public double? PeriodicitaZadavani()
+        public double PeriodicitaZadavani()
         {
-            return Math.Ceiling((360 * (Obdobi ?? 0)) / (PocetDavek() ?? 0));
+            return Math.Ceiling(360 * (Obdobi??0) / (PocetDavek()));
+        }
+        public double CelkoveNaklady()
+        {
+            double prislusneNaklady = Qopt() / 2 * (Nj??0) * (Ns??0) * (Obdobi??0);
+            return Math.Round((VelikostPoptavky ?? 0) / Qopt() * (Npz ?? 0) + prislusneNaklady, 2);
+            
         }
     }
 }

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:LogisticCalculationWPF"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="View/FontStyle.xaml"/>
+        <ResourceDictionary Source="View/Styles.xaml"/>
     </Application.Resources>
 </Application>

@@ -45,7 +45,7 @@
                 </TabItem>
                 <TabItem x:Name="DavkaTab" Header="Optimalní Davka">
                     <Grid Name="DavkaGrid">
-                        <Grid Name="DavkaInputGrid" UseLayoutRounding="False" Margin="0,0,0,300">
+                        <Grid Name="DavkaInputGrid" UseLayoutRounding="False" Height="362" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0*"/>
                                 <RowDefinition Height="48*"/>
@@ -62,10 +62,10 @@
                                 <ColumnDefinition Width="150*"/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{StaticResource LabelStyle}" x:Name="VelikostDavkyLabel" Content="Celková velikost úkolu/poptávky za období [D]" Grid.Column="1" Grid.Row="0" Margin="5,8,0,24" Width="340" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
-                            <Label Style="{StaticResource LabelStyle}" x:Name="NpzLabel" Content="Náklady pro jednu dávku (CZK) [Npz]" Width="340" Grid.Column="1" Grid.Row="1"/>
-                            <Label Style="{StaticResource LabelStyle}" x:Name="NsLabel" Content="Celkové náklady na držení zásob (CZK) [Ns]" Width="340" Grid.Column="1" Grid.Row="2"/>
-                            <Label Style="{StaticResource LabelStyle}" x:Name="NjLabel" Content="Naklady jednice v dávce (hodnota 1 pokud není jinak) [Nj]" Width="340" Grid.Column="1" Grid.Row="3"/>
-                            <Label Style="{StaticResource LabelStyle}" x:Name="ObdobiLabel" Content="Celková velikost úkolu/poptávky za období [D]" Width="340" Grid.Column="1" Grid.Row="4"/>
+                            <Label Style="{StaticResource LabelStyle}" x:Name="NpzLabel" Content="Náklady pro jednu dávku (CZK) [Npz]" Width="340" Grid.Column="1" Grid.Row="2"/>
+                            <Label Style="{StaticResource LabelStyle}" x:Name="NsLabel" Content="Celkové náklady na držení zásob (CZK) [Ns]" Width="340" Grid.Column="1" Grid.Row="3"/>
+                            <Label Style="{StaticResource LabelStyle}" x:Name="NjLabel" Content="Naklady jednice v dávce (hodnota 1 pokud není jinak) [Nj]" Width="340" Grid.Column="1" Grid.Row="4"/>
+                            <Label Style="{StaticResource LabelStyle}" x:Name="ObdobiLabel" Content="Celková velikost úkolu/poptávky za období [D]" Width="340" Grid.Column="1" Grid.Row="5"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="VelikostDavkyTxb" Text="{Binding Davka}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NpzTxb" Text="{Binding Npz}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NsTxb" Text="{Binding Ns}" Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap"/>
@@ -82,7 +82,7 @@
                                 </Border.BorderBrush>
                             </Border>
                         </Grid>
-                        <Grid Name="DavkaOutputGrid" Margin="-2,362,0,0" Height="300" VerticalAlignment="Top">
+                        <Grid Name="DavkaOutputGrid" Margin="-2,362,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>

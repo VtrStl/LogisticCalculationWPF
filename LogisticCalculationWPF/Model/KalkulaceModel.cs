@@ -26,13 +26,12 @@ namespace LogisticCalculationWPF.Model
 
         public double Qopt()
         {
-            return Math.Ceiling(Math.Sqrt(2 * (VelikostPoptavky?? 0) * (Npz??0)) / Math.Sqrt((Nj??0) * (Ns??0) * (Obdobi??0)));
+            return Math.Ceiling(Math.Sqrt(2 * (VelikostPoptavky??0) * (Npz??0)) / Math.Sqrt((Nj??0) * (Ns??0) * (Obdobi??0)));
         }
         
         public double PocetDavek()
         {
             return Math.Ceiling((VelikostPoptavky??0) / (Qopt()));
-
         }
         
         public double PeriodicitaZadavani()
@@ -42,8 +41,7 @@ namespace LogisticCalculationWPF.Model
         public double CelkoveNaklady()
         {
             double prislusneNaklady = Qopt() / 2 * (Nj??0) * (Ns??0) * (Obdobi??0);
-            return Math.Round((VelikostPoptavky ?? 0) / Qopt() * (Npz ?? 0) + prislusneNaklady, 2);
-            
+            return Math.Round((VelikostPoptavky??0) / Qopt() * (Npz??0) + prislusneNaklady, 2);            
         }
     }
 }

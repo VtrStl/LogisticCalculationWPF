@@ -22,11 +22,6 @@ namespace LogisticCalculationWPF.ViewModel
         private double? obdobi;
         private string vysledek;
 
-        public QoptDavkaViewModel()
-        {
-            VypocitejQoptBt = new RelayCommand(Kalkulace);
-            vysledek = "";
-        }
         public double? Davka 
         { 
             get { return davka; } 
@@ -56,6 +51,12 @@ namespace LogisticCalculationWPF.ViewModel
         }
         public ICommand VypocitejQoptBt { get; set; }
 
+        public QoptDavkaViewModel()
+        {
+            VypocitejQoptBt = new RelayCommand(Kalkulace);
+            vysledek = "";
+        }
+                
         private void Kalkulace()
         {
             kalkulace = new KalkulaceModel(davka, npz, ns, nj, obdobi);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogisticCalculationWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,11 @@ namespace LogisticCalculationWPF
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.QoptDavkaViewModel();
+            DataContext = new CoreViewModel()
+            {
+                QoptVM = new QoptDavkaViewModel(),
+                AnalyzaZasobVM = new AnalyzaZasobViewModel()
+            };
         }
     }
 }

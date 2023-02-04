@@ -3,17 +3,17 @@
 
     <Style x:Key="LabelStyle" TargetType="Label">
         <Setter Property="FontFamily" Value="Roboto"/>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,5,0,28"/>
         <Setter Property="Height" Value="26"/>
     </Style>
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Roboto"/>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="CaretBrush" Value="#FF0BF9FF"/>
         <Setter Property="BorderBrush" Value="#FF00B3FF"/>
@@ -26,7 +26,7 @@
         <Setter Property="Height" Value="19"/>
         <Setter Property="MaxHeight" Value="45"/>
     </Style>
-    <Style x:Key="VypocitejButtonStyle" TargetType="Button">
+    <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="Roboto"/>
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Foreground" Value="White"/>

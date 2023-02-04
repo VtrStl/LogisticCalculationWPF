@@ -4,7 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogisticCalculationWPF" xmlns:viewmodel="clr-namespace:LogisticCalculationWPF.ViewModel"
-        Title="MainWindow" Height="700" Width="900" 
+        Title="MainWindow" 
+        Height="700" 
+        Width="900" 
+        MinHeight="650"
+        MinWidth="850"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow">
 
@@ -12,23 +16,27 @@
         <FontFamily x:Key="Roboto" >/Fonts/#Roboto</FontFamily>
     </Window.Resources>
     <Window.DataContext>
-        <viewmodel:QoptDavkaViewModel/>
+        <viewmodel:CoreViewModel/>
     </Window.DataContext>
 
     <Grid Name="MainGrid" Background="Transparent" Margin="-2">
         <Grid x:Name="Menu" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="247*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="69*"/>
-                <RowDefinition Height="565*"/>
+                <RowDefinition Height="562*"/>
             </Grid.RowDefinitions>
-            <StackPanel x:Name="MenuStack" Orientation="Horizontal" Grid.RowSpan="2" Width="250" HorizontalAlignment="Left">
+            <StackPanel x:Name="MenuStack" Orientation="Horizontal" Width="250" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <StackPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF0D014A" Offset="0"/>
                         <GradientStop Color="#FF0D014A" Offset="1"/>
-                        <GradientStop Color="#FF2308AD" Offset="0.513"/>
+                        <GradientStop Color="#FF15007F" Offset="0.513"/>
                     </LinearGradientBrush>
                 </StackPanel.Background>
+                <Button Style="{StaticResource ButtonStyle}" x:Name="button" Grid.Row="1" Grid.Column="1" Content="Tester" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="Function" Margin="249,0,0,0">
@@ -37,14 +45,14 @@
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF120067"/>
                         <GradientStop Color="#FF120067" Offset="1"/>
-                        <GradientStop Color="#FF2308AD" Offset="0.487"/>
+                        <GradientStop Color="#FF150082" Offset="0.487"/>
                     </LinearGradientBrush>
                 </TabControl.Background>
                 <TabItem x:Name="UvodTab" Header="Úvodni Obrazovka">
                     <Grid Name="UvodGrid" Background="White" Margin="0,0,0,0" HorizontalAlignment="Left"/>
                 </TabItem>
                 <TabItem x:Name="DavkaTab" Header="Optimalní Davka">
-                    <Grid Name="DavkaGrid">
+                    <Grid Name="DavkaGrid" DataContext="{Binding QoptVM}">
                         <Grid Name="DavkaInputGrid" UseLayoutRounding="False" Height="362" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0*"/>
@@ -61,7 +69,8 @@
                                 <ColumnDefinition Width="368*"/>
                                 <ColumnDefinition Width="150*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource LabelStyle}" x:Name="VelikostDavkyLabel" Content="Celková velikost úkolu/poptávky za období [D]" Grid.Column="1" Grid.Row="0" Margin="5,8,0,24" Width="340" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
+                            <Label Style="{StaticResource LabelStyle}" x:Name="VelikostDavkyLabel" Content="Celková velikost úkolu/poptávky za období [D]" 
+                                   Grid.Column="1" Grid.Row="0" Margin="5,8,0,24" Width="340" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
                             <Label Style="{StaticResource LabelStyle}" x:Name="NpzLabel" Content="Náklady pro jednu dávku (CZK) [Npz]" Width="340" Grid.Column="1" Grid.Row="2"/>
                             <Label Style="{StaticResource LabelStyle}" x:Name="NsLabel" Content="Celkové náklady na držení zásob (CZK) [Ns]" Width="340" Grid.Column="1" Grid.Row="3"/>
                             <Label Style="{StaticResource LabelStyle}" x:Name="NjLabel" Content="Naklady jednice v dávce (hodnota 1 pokud není jinak) [Nj]" Width="340" Grid.Column="1" Grid.Row="4"/>
@@ -71,7 +80,7 @@
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NsTxb" Text="{Binding Ns}" Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NjTxb" Text="{Binding Nj}" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="ObdobiTxb" Text="{Binding Obdobi}" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap"/>
-                            <Button Style="{StaticResource VypocitejButtonStyle}" x:Name="QopqVypocetButton" Command="{Binding VypocitejQoptBt}" Content="Vypočítat" Grid.Column="1" Grid.Row="6" Width="181" Height="31"/>
+                            <Button Style="{StaticResource ButtonStyle}" x:Name="QopqVypocetButton" Command="{Binding VypocitejQoptBt}" Content="Vypočítat" Grid.Column="1" Grid.Row="6" Width="181" Height="31"/>
                             <Border BorderThickness="6" Grid.RowSpan="8" Opacity="0.8" Padding="0,0,3,0" Grid.ColumnSpan="3" Margin="146,0,146,0">
                                 <Border.BorderBrush>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -95,8 +104,54 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="AnalyzaZasobTab" Header="Analýza zásob">
-                    <Grid Name="AnalyzaZasobGrid">
-                        <Grid Name="AnalyzaZasobGridInput" Margin="0,0,325,0"/>
+                    <Grid Name="AnalyzaZasobGrid" DataContext="{Binding AnalyzaZasobVM}">
+                        <Grid Name="AnalyzaZasobGridInput" HorizontalAlignment="Left" Width="326">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="17*"/>
+                                <ColumnDefinition Width="299*"/>
+                                <ColumnDefinition Width="17*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="33*"/>
+                            </Grid.RowDefinitions>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="1" Content="Spotřeba za rok" Margin="0,4,0,25"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding Spotreba}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,30,10,2"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="2" Content="Objednávací Dávka" Margin="0,3,0,26"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,29,10,2"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Row="3" Content="Pojistná zásoba[ZP]" Margin="0,4,1,25" Grid.Column="1"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,30,10,2"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="4" Content="Týden pokrytí poptávky(pokud není úveden ZP)" Margin="0,3,0,26"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,29,10,2"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="5" Content="Dodací lhůta" Margin="0,5,0,24"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,30,10,2"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="6" Content="Kolik má rok týdnů/dnů" Margin="0,3,0,26"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" FontSize="15" Height="NaN" VerticalContentAlignment="Center" Margin="10,29,10,2"/>
+                            <Button Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Převod na týdny" Grid.Row="7" FontSize="12" Width="146" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Stretch"/>
+                            <ComboBox x:Name="SystemyAnalyzaZasob" Grid.Column="1" Grid.Row="8" BorderBrush="#FFACACAC" Margin="10,0,136,0" FontFamily="Roboto" VerticalAlignment="Bottom" Height="20">
+                                <ComboBoxItem Content="B,Q" TabIndex="2"/>
+                                <ComboBoxItem Content="s,Q"/>
+                            </ComboBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Grid.Column="1" HorizontalAlignment="Left" Margin="162,31,0,0" Grid.Row="8" TextWrapping="Wrap" Width="120"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Row="8" Content="Systémy" Margin="7,4,135,20" Grid.Column="1" HorizontalContentAlignment="Left"/>
+                            <Label Style="{StaticResource LabelStyle}" Grid.Row="8" Content="Interval kontroly(s,Q)" Margin="162,4,1,20" Grid.Column="1" HorizontalContentAlignment="Left"/>
+                        </Grid>
+                        <Grid x:Name="AnalyzaZasobGridOutput" Margin="331,0,0,0">
+                            <TextBox x:Name="AnalyzaZasobVysledekTextBox" TextWrapping="Wrap" Foreground="White" BorderBrush="{x:Null}" FontSize="16" FontFamily="Roboto" IsReadOnly="True">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="Black" Opacity="0.1"/>
+                                </TextBox.Background>
+                            </TextBox>
+                        </Grid>
                     </Grid>
 
                 </TabItem>
@@ -109,7 +164,6 @@
                         <Grid Name="PrubeznaDobaInput" Margin="-3,267,0,331">
 
                         </Grid>
-
 
                     </Grid>
                 </TabItem>

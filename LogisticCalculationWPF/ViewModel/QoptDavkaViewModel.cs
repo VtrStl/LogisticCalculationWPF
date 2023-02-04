@@ -8,13 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using System.Security.Permissions;
 
 namespace LogisticCalculationWPF.ViewModel
 {
-    class QoptDavkaViewModel: INotifyPropertyChanged
+    public class QoptDavkaViewModel: INotifyPropertyChanged
     {
-        private KalkulaceModel kalkulace;
+        private QoptModel kalkulace;
         private double? davka;
         private double? npz;
         private double? ns;
@@ -59,7 +58,7 @@ namespace LogisticCalculationWPF.ViewModel
                 
         private void Kalkulace()
         {
-            kalkulace = new KalkulaceModel(davka, npz, ns, nj, obdobi);
+            kalkulace = new QoptModel(davka, npz, ns, nj, obdobi);
             VysledekQopt = 
                 $"Optimální dávka: {kalkulace.Qopt()}\r\n" +
                 $"Počet dávek: {kalkulace.PocetDavek()}\r\n" +

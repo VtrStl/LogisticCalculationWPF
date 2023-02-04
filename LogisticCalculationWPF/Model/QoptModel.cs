@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogisticCalculationWPF.Model
 {
-    public class KalkulaceModel
+    public class QoptModel
     {
         private double? VelikostPoptavky;
         private double? Npz;
@@ -15,7 +15,7 @@ namespace LogisticCalculationWPF.Model
         private double? Nj;
         private double? Obdobi;
 
-        public KalkulaceModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
+        public QoptModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
         { 
             VelikostPoptavky= velikostPoptavky;
             Npz = npz;

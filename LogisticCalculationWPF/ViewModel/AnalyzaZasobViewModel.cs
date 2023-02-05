@@ -12,58 +12,83 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class AnalyzaZasobViewModel: INotifyPropertyChanged 
     {
-        private float? spotreba;
-        private float? objednavaciDavka;
-        private float? tydnyRok;
-        private float? pojistnaZasoba;
-        private float? pokrytiPoptavky;
-        private float? dodaciLhuta;
+        private AnalyzaZasobModel analyzaZasobKalkulace;
+        private double? spotreba;
+        private double? objednavaciDavka;
+        private double? dnyTydny;
+        private double pojistnaZasoba;
+        private double pokrytiPoptavky;
+        private double? dodaciLhuta;
         private int? intervalKontroly;
-        private bool _SystemyZasob;
+        private int _SystemyZasob;
+        private string vysledekAnalyzaZasob;
 
-        public float? Spotreba 
+        public double? Spotreba 
         { 
             get { return spotreba; }
             set { spotreba = value; OnPropertyChanged(nameof(Spotreba)); }        
         }
-        public float? ObjednavaciDavka 
+        public double? ObjednavaciDavka 
         {
             get { return objednavaciDavka; }
             set { objednavaciDavka = value; OnPropertyChanged(nameof(ObjednavaciDavka)); }
-        }
-        public float? TydnyRok 
-        {
-            get { return tydnyRok; } 
-            set { tydnyRok = value; OnPropertyChanged(nameof(TydnyRok)); }
-        }
-        public float? PojistnaZasoba 
+        }        
+        public double PojistnaZasoba 
         {
             get { return pojistnaZasoba; } 
             set { pojistnaZasoba = value; }
         }
-        public float? PokrytiPoptavky
+        public double PokrytiPoptavky
         {
             get { return pokrytiPoptavky; }
             set { pokrytiPoptavky = value; }
         }
-        public float? DodaciLhuta
+        public double? DodaciLhuta
         {
             get { return dodaciLhuta; }
             set { dodaciLhuta = value; OnPropertyChanged(nameof(DodaciLhuta)); }
+        }
+        public double? DnyTydny
+        {
+            get { return dnyTydny; }
+            set { dnyTydny = value; OnPropertyChanged(nameof(DnyTydny)); }
         }
         public int? IntervalKontroly 
         {
             get { return intervalKontroly; }
             set { intervalKontroly = value;}
         }
-        public bool SystemyZasob 
+        public int SystemyZasob 
         {
             get { return _SystemyZasob; }
             set { _SystemyZasob = value; OnPropertyChanged(nameof(SystemyZasob)); }
         }
+        public string VysledekAnalyzaZasob 
+        {
+            get { return vysledekAnalyzaZasob; }
+            set { vysledekAnalyzaZasob = value; OnPropertyChanged(nameof(VysledekAnalyzaZasob)); }
+        }
         public ICommand VypocitejAnalyzaZasob { get; set; }
-        public ICommand PrevodDnyNaRok { get; set; }
+        public ICommand PrevodDnyNaTydny { get; set; }
 
+        public AnalyzaZasobViewModel()
+        {
+            VypocitejAnalyzaZasob = new RelayCommand(AnalyzaZasobVypocet);
+            PrevodDnyNaTydny = new RelayCommand(Prevod);
+        }
+
+        private void AnalyzaZasobVypocet()
+        {
+            analyzaZasobKalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, SystemyZasob);
+            analyzaZasobKalkulace.VyberSystem();
+            VysledekAnalyzaZasob = $"{analyzaZasobKalkulace.VypisVysledek()}";
+        }
+        
+        private void Prevod()
+        {
+            DnyTydny = Math.Round(Convert.ToDouble(dnyTydny) / 7, 3);
+        }
+               
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

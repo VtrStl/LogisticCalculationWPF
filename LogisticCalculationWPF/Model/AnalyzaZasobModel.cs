@@ -53,11 +53,11 @@ namespace LogisticCalculationWPF.Model
             switch (PokrytiPoptavky)
             {
                 case > 0:
-                    xPojistnaZasoba = (OcekavanaSpotreba??0) * (PokrytiPoptavky??0);
-                    BQsystem = Math.Ceiling((xPojistnaZasoba??0) + (DodaciLhuta??0) * (OcekavanaSpotreba??0));
+                    xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
+                    BQsystem = Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
                     break;
                 default:
-                    BQsystem = Math.Ceiling((PojistnaZasoba??0) + (DodaciLhuta??0) * (OcekavanaSpotreba??0));
+                    BQsystem = Math.Ceiling(Convert.ToDouble(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
                     break;
             }
         }
@@ -67,15 +67,16 @@ namespace LogisticCalculationWPF.Model
             switch (PokrytiPoptavky)
             {
                 case > 0:
-                    xPojistnaZasoba = (OcekavanaSpotreba??0) * (PokrytiPoptavky??0);
-                    sQsystem = Math.Ceiling((xPojistnaZasoba??0) + (OcekavanaSpotreba??0) * ((DodaciLhuta??0) + 0.7 * (IntervalKontroly??0)));
+                    xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
+                    sQsystem = Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));
                     break; 
                 default:
-                    sQsystem = Math.Ceiling((PojistnaZasoba??0) + (OcekavanaSpotreba??0) * ((DodaciLhuta ?? 0) + 0.7 * (IntervalKontroly??0)));
+                    sQsystem = Math.Ceiling(Convert.ToDouble(PojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));
                     break;
             }
         }
-        public double? VypisVysledek()
+        
+        public double? ObjednavaciUrovenVysledek()
         {
             return Systemy switch
             {
@@ -84,6 +85,15 @@ namespace LogisticCalculationWPF.Model
                 _ => null
             }; 
             
+        }        
+        public double? PrumernaZasoba()
+        {
+            double? TydnyNaDny = DnyNaTyden * 7;
+            return Math.Round(Convert.ToDouble(TydnyNaDny / OcekavanaSpotreba), 2);
+        }
+        public double? PocetObjednavekZaRok()
+        {
+            return Spotreba / ObjednavaciDavka;
         }
     }
 }

@@ -31,17 +31,17 @@ namespace LogisticCalculationWPF.Model
         
         public double PocetDavek()
         {
-            return Math.Ceiling((VelikostPoptavky??0) / (Qopt()));
+            return Math.Ceiling(Convert.ToDouble(VelikostPoptavky / (Qopt())));
         }
         
         public double PeriodicitaZadavani()
         {
-            return Math.Ceiling(360 * (Obdobi??0) / (PocetDavek()));
+            return Math.Ceiling(Convert.ToDouble(360 * Obdobi / (PocetDavek())));
         }
         public double CelkoveNaklady()
         {
-            double prislusneNaklady = Qopt() / 2 * (Nj??0) * (Ns??0) * (Obdobi??0);
-            return Math.Round((VelikostPoptavky??0) / Qopt() * (Npz??0) + prislusneNaklady, 2);            
+            double prislusneNaklady = Convert.ToDouble(Qopt() / 2 * Nj * Ns * Obdobi);
+            return Math.Round(Convert.ToDouble(VelikostPoptavky / Qopt() * Npz + prislusneNaklady), 2);            
         }
     }
 }

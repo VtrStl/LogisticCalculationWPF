@@ -30,5 +30,25 @@ namespace LogisticCalculationWPF
                 AnalyzaZasobVM = new AnalyzaZasobViewModel()
             };
         }
+
+        private void UvodButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = UvodTab;
+        }
+
+        private void QoptButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = DavkaTab;
+        }
+
+        private void AnalyzatButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = AnalyzaZasobTab;
+        }
+
+        private void PrubeznaDobaButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = PrubeznaDobaTab;
+        }
     }
 }

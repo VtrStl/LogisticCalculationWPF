@@ -35,4 +35,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
+    <Style x:Key="TabPanelStyle" TargetType="TabPanel">
+        <Setter Property="Visibility" Value="Visible"/>
+    </Style>
 </ResourceDictionary>

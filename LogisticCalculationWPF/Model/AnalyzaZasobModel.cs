@@ -8,18 +8,18 @@ namespace LogisticCalculationWPF.Model
 {
     public class AnalyzaZasobModel
     {
-        private double? Spotreba;
-        private double? ObjednavaciDavka;
-        private double? PojistnaZasoba;
-        private double? PokrytiPoptavky;
-        private double? DodaciLhuta;
-        public double? DnyNaTyden;
-        private int? IntervalKontroly;
-        private int Systemy;
-        private double? xPojistnaZasoba;
-        private double? OcekavanaSpotreba;
-        public double? BQsystem;
-        private double? sQsystem;
+        private double? Spotreba { get; set; }
+        private double? ObjednavaciDavka { get; set; }
+        private double? PojistnaZasoba { get; set; }
+        private double? PokrytiPoptavky { get; set; }
+        private double? DodaciLhuta { get; set; }
+        public double? DnyNaTyden { get; set; }
+        private int? IntervalKontroly { get; set; }
+        private int Systemy { get; set; }
+        private double? xPojistnaZasoba { get; set; }
+        private double? OcekavanaSpotreba { get; set; }
+        private double? BQsystem { get; set; }
+        private double? sQsystem { get; set; }
 
         public AnalyzaZasobModel(double? spotreba, double? objednavaciDavka, double? pojistnaZasoba, double? pokrytiPoptavky, double? dodaciLhuta, double? dnynarok,
             int? intervalKontroly, int systemy)
@@ -85,7 +85,7 @@ namespace LogisticCalculationWPF.Model
                 _ => null
             }; 
             
-        }        
+        }
         public double? PrumernaZasoba()
         {
             double? TydnyNaDny = DnyNaTyden * 7;
@@ -93,7 +93,7 @@ namespace LogisticCalculationWPF.Model
         }
         public double? PocetObjednavekZaRok()
         {
-            return Spotreba / ObjednavaciDavka;
+            return Math.Ceiling(Convert.ToDouble(Spotreba / ObjednavaciDavka));
         }
     }
 }

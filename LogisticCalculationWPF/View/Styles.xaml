@@ -13,7 +13,7 @@
     </Style>
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Roboto"/>
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="CaretBrush" Value="#FF0BF9FF"/>
         <Setter Property="BorderBrush" Value="#FF00B3FF"/>

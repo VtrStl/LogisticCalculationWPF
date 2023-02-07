@@ -9,11 +9,11 @@ namespace LogisticCalculationWPF.Model
 {
     public class QoptModel
     {
-        private double? VelikostPoptavky;
-        private double? Npz;
-        private double? Ns;
-        private double? Nj;
-        private double? Obdobi;
+        private double? VelikostPoptavky { get; set; }
+        private double? Npz { get; set; }
+        private double? Ns { get; set; }
+        private double? Nj { get; set; }
+        private double? Obdobi { get; set; }
 
         public QoptModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
         { 

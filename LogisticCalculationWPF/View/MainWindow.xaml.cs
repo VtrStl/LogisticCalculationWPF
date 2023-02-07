@@ -1,4 +1,6 @@
 ﻿using LogisticCalculationWPF.ViewModel;
+using LogisticCalculationWPF;
+using LogisticCalculationWPF.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +25,12 @@ namespace LogisticCalculationWPF
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();  
             DataContext = new CoreViewModel()
             {
                 QoptVM = new QoptDavkaViewModel(),
                 AnalyzaZasobVM = new AnalyzaZasobViewModel()
             };
-        }
-
-        private void UvodButton_Click(object sender, RoutedEventArgs e)
-        {
-            tabController.SelectedValue = UvodTab;
         }
 
         private void QoptButton_Click(object sender, RoutedEventArgs e)
@@ -44,11 +41,6 @@ namespace LogisticCalculationWPF
         private void AnalyzatButton_Click(object sender, RoutedEventArgs e)
         {
             tabController.SelectedValue = AnalyzaZasobTab;
-        }
-
-        private void PrubeznaDobaButton_Click(object sender, RoutedEventArgs e)
-        {
-            tabController.SelectedValue = PrubeznaDobaTab;
         }
     }
 }

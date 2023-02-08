@@ -41,7 +41,7 @@
                 <Button Style="{StaticResource ButtonStyle}" Content="Úvod" x:Name="UvodButton" Grid.Row="1" Grid.Column="1" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4"/>
                 <Button Style="{StaticResource ButtonStyle}" Content="Optimální Dávka" Click="QoptButton_Click" x:Name="QoptButton" Grid.Row="1" Grid.Column="1" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4"/>
                 <Button Style="{StaticResource ButtonStyle}" Content="Analyza Zasob" Click="AnalyzatButton_Click" x:Name="AnalyzatButton" Grid.Row="1" Grid.Column="1" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4"/>
-                <Button Style="{StaticResource ButtonStyle}" Content="Průběžná Doba" x:Name="PrubeznaDobaButton" Grid.Row="1" Grid.Column="1" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4"/>
+                <Button Style="{StaticResource ButtonStyle}" Content="Průběžná Doba" x:Name="PrubeznaDobaButton" Grid.Row="1" Grid.Column="1" Height="91" Width="247" VerticalAlignment="Top" BorderThickness="4" Click="PrubeznaDobaButton_Click"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="Function" Margin="249,0,0,0">
@@ -62,20 +62,32 @@
                     <Grid Name="UvodGrid" Background="White" Margin="0,0,0,0" HorizontalAlignment="Left"/>
                 </TabItem>
                 <TabItem x:Name="DavkaTab" Header="Optimalní Davka">
-                    <UserControl:QoptUserControl FontFamily="Roboto" DataContext="{Binding QoptVM}"/>
+                    <UserControl:QoptUserControl DataContext="{Binding QoptVM}"/>
                 </TabItem>
                 <TabItem x:Name="AnalyzaZasobTab" Header="Analýza zásob">
                     <UserControl:AnalyzaZasobUserControl DataContext="{Binding AnalyzaZasobVM}"/>
                 </TabItem>
                 <TabItem x:Name="PrubeznaDobaTab" Header="Průběžná doba">
-                    <Grid Name="PrubeznaDobaGrid" Width="645" Margin="0,-3,0,0" HorizontalAlignment="Right">
-                        <Grid Name="PrubeznaDobaDataGrid" Margin="-3,0,0,400">
-                            <DataGrid x:Name="dataGrid"/>
+                    <Grid Name="PrubeznaDobaGrid" HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="620*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Name="PrubeznaDobaDataGrid" Grid.Row="2" Height="262" VerticalAlignment="Top">
+                            <DataGrid x:Name="PrubeznaDobaDatagrid" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Pracoviště" Width="*" FontFamily="Roboto" CanUserResize="False" CanUserSort="False"/>
+                                    <DataGridTextColumn Header="Čas Operační (tk)" Width="*" CanUserSort="False" CanUserReorder="False"/>
+                                    <DataGridTextColumn Header="Čas Nastavovací (tpz)" Width="*" CanUserSort="False" CanUserReorder="False"/>
+                                    <DataGridTextColumn Header="Čas mezioperační (tm)" Width="*" CanUserReorder="False" CanUserSort="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
                         </Grid>
-                        <Grid Name="PrubeznaDobaInput" Margin="-3,267,0,331">
+                        <Grid Name="PrubeznaDobaInput" Margin="-3,270,0,286" Grid.Row="2" Grid.ColumnSpan="2">
 
-                        </Grid> 
+                        </Grid>
                     </Grid>
                 </TabItem>
             </TabControl>

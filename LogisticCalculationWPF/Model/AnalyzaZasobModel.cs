@@ -18,8 +18,6 @@ namespace LogisticCalculationWPF.Model
         private int Systemy { get; set; }
         private double? xPojistnaZasoba { get; set; }
         private double? OcekavanaSpotreba { get; set; }
-        private double? BQsystem { get; set; }
-        private double? sQsystem { get; set; }
 
         public AnalyzaZasobModel(double? spotreba, double? objednavaciDavka, double? pojistnaZasoba, double? pokrytiPoptavky, double? dodaciLhuta, double? dnynarok,
             int? intervalKontroly, int systemy)
@@ -35,63 +33,46 @@ namespace LogisticCalculationWPF.Model
             OcekavanaSpotreba = Spotreba / DnyNaTyden;
         }
         
-        public void VyberSystem()
-        {
-            switch (Systemy)
-            {
-                case 0:
-                    BQsystemKalkulace();
-                    break;
-                case 1:
-                    SQsystemKalkulace();
-                    break;
-            }
-        }
-
-        private void BQsystemKalkulace()
+        private double BQsystem()
         {
             switch (PokrytiPoptavky)
             {
                 case > 0:
                     xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
-                    BQsystem = Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
-                    break;
+                    return Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
                 default:
-                    BQsystem = Math.Ceiling(Convert.ToDouble(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
-                    break;
+                    return Math.Ceiling(Convert.ToDouble(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));                    
             }
         }
 
-        private void SQsystemKalkulace()
+        private double SQsystem()
         {
             switch (PokrytiPoptavky)
             {
                 case > 0:
                     xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
-                    sQsystem = Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));
-                    break; 
+                    return Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));                     
                 default:
-                    sQsystem = Math.Ceiling(Convert.ToDouble(PojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));
-                    break;
+                    return Math.Ceiling(Convert.ToDouble(PojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));
             }
         }
         
-        public double? ObjednavaciUrovenVysledek()
+        public double ObjednavaciUrovenVysledek()
         {
             return Systemy switch
             {
-                0 => BQsystem,
-                1 => sQsystem,
-                _ => null
+                0 => BQsystem(),
+                1 => SQsystem(),
+                _ => 0
             }; 
             
-        }
-        public double? PrumernaZasoba()
+        }        
+        public double PrumernaZasoba()
         {
             double? TydnyNaDny = DnyNaTyden * 7;
             return Math.Round(Convert.ToDouble(TydnyNaDny / OcekavanaSpotreba), 2);
         }
-        public double? PocetObjednavekZaRok()
+        public double PocetObjednavekZaRok()
         {
             return Math.Ceiling(Convert.ToDouble(Spotreba / ObjednavaciDavka));
         }

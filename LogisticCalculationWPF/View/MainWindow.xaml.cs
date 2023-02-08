@@ -42,5 +42,10 @@ namespace LogisticCalculationWPF
         {
             tabController.SelectedValue = AnalyzaZasobTab;
         }
+
+        private void PrubeznaDobaButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = PrubeznaDobaTab;
+        }
     }
 }

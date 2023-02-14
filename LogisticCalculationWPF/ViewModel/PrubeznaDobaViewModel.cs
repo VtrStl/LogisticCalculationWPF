@@ -68,7 +68,7 @@ namespace LogisticCalculationWPF.ViewModel
             try
             {
                 kalkulace = new PrubeznaDobaModel(prubeznaDoba, davkaQ, davkaQD, systemZpracovani);
-                VysledekPrubeznaDoba = $"T = {kalkulace.PrubeznaDobaVysledek()} min";
+                VysledekPrubeznaDoba = $"T = {kalkulace.PrubeznaDobaVysledek()} min\r\nPotřebný počet pracovníků: {kalkulace.PocetPracovniku}";
             }
             catch (Exception ex) { MessageBox.Show("Chyba: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error); }
         }

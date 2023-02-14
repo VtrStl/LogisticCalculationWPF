@@ -16,9 +16,11 @@ namespace LogisticCalculationWPF.Model
         private int Tkmax { get; set; }
         private int Tmsum { get; set;}
         private int TmWithValue { get; set; }
+        private int PocetPracovist { get; set; }
         private int DavkaQ { get; set; }
         private int DavkaQD { get; set; }
         private int SystemZpracovani { get; set; }
+        public int PocetPracovniku { get; private set; }
 
         public PrubeznaDobaModel(ObservableCollection<Pracoviste> PrubeznaDoba, int davkaQ, int davkaQD, int systemZpracovani)
         {
@@ -27,19 +29,21 @@ namespace LogisticCalculationWPF.Model
             Tkmax = PrubeznaDoba.Max(row => Convert.ToInt32(row.Tk));
             Tmsum = PrubeznaDoba.Sum(row => Convert.ToInt32(row.Tm));
             TmWithValue = PrubeznaDoba.Count(row => Convert.ToInt32(row.Tm) !=0);
+            PocetPracovist = PrubeznaDoba.Count;
             DavkaQ = davkaQ;
             DavkaQD = davkaQD;
             SystemZpracovani = systemZpracovani;
-
         }
         
         private int SoubezneJednotlive()
         {
+            PocetPracovniku = PocetPracovist + TmWithValue;
             return Tpz1 + Tksum + (DavkaQ - 1) * Tkmax + Tmsum;
         }
         
         private int SoubeznePoDavkach()
         {
+            PocetPracovniku = PocetPracovist + TmWithValue - DavkaQD;
             return Tpz1 + DavkaQD * Tksum + (DavkaQ - DavkaQD) * Tkmax + Tmsum;
         }
 

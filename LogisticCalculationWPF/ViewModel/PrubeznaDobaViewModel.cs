@@ -17,13 +17,13 @@ namespace LogisticCalculationWPF.ViewModel
     {
         private PrubeznaDobaModel kalkulace;
         private ObservableCollection<Pracoviste> prubeznaDoba;
-        public ObservableCollection<Pracoviste> PrubeznaDobaVM
+        public ObservableCollection<Pracoviste> PrubeznaDoba
         {
             get { return prubeznaDoba; }
             set
             {
                 prubeznaDoba = value;
-                OnPropertyChanged(nameof(PrubeznaDobaVM));
+                OnPropertyChanged(nameof(PrubeznaDoba));
             }
         }
         private int davkaQ;

@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="662" d:DesignWidth="651">
     
+    <UserControl.DataContext>
+        <viewmodel:QoptDavkaViewModel/>
+    </UserControl.DataContext>
+    
     <Grid Name="DavkaGrid">
         <Grid Name="DavkaInputGrid" UseLayoutRounding="False" Height="362" VerticalAlignment="Top">
             <Grid.RowDefinitions>

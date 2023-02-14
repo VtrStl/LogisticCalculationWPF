@@ -34,6 +34,11 @@ namespace LogisticCalculationWPF
             };
         }
 
+        private void UvodButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabController.SelectedValue = UvodTab;
+        }
+
         private void QoptButton_Click(object sender, RoutedEventArgs e)
         {
             tabController.SelectedValue = DavkaTab;

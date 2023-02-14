@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="662" d:DesignWidth="651">
 
+    <UserControl.DataContext>
+        <viewmodel:AnalyzaZasobViewModel/>
+    </UserControl.DataContext>
+    
     <Grid Name="AnalyzaZasobGrid">
         <Grid Name="AnalyzaZasobGridInput" HorizontalAlignment="Left" Width="326">
             <Grid.ColumnDefinitions>

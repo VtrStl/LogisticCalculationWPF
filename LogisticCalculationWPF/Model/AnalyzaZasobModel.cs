@@ -31,6 +31,7 @@ namespace LogisticCalculationWPF.Model
             IntervalKontroly = intervalKontroly;
             Systemy = systemy;
             OcekavanaSpotreba = Spotreba / DnyNaTyden;
+            xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
         }
         
         private double BQsystem()
@@ -38,7 +39,6 @@ namespace LogisticCalculationWPF.Model
             switch (PokrytiPoptavky)
             {
                 case > 0:
-                    xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
                     return Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));
                 default:
                     return Math.Ceiling(Convert.ToDouble(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba));                    
@@ -50,7 +50,6 @@ namespace LogisticCalculationWPF.Model
             switch (PokrytiPoptavky)
             {
                 case > 0:
-                    xPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
                     return Math.Ceiling(Convert.ToDouble(xPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));                     
                 default:
                     return Math.Ceiling(Convert.ToDouble(PojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly)));

@@ -79,7 +79,7 @@ namespace LogisticCalculationWPF.ViewModel
 
         private void AnalyzaZasobVypocet()
         {
-            Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, SystemyZasob);
+            Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, _SystemyZasob);
             VysledekAnalyzaZasob = $"{Kalkulace.ObjednavaciUrovenVysledek()} Ks budem objednávat\r\n" +
                 $"{Kalkulace.PrumernaZasoba()} týdnů nám vystačí zásoba\r\n" +
                 $"{Kalkulace.PocetObjednavekZaRok()}x budeme objednávat za rok";

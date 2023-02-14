@@ -68,26 +68,47 @@
                     <UserControl:AnalyzaZasobUserControl DataContext="{Binding AnalyzaZasobVM}"/>
                 </TabItem>
                 <TabItem x:Name="PrubeznaDobaTab" Header="Průběžná doba">
-                    <Grid Name="PrubeznaDobaGrid" HorizontalAlignment="Stretch">
+                    <Grid Name="PrubeznaDobaGrid" DataContext="{Binding PrubeznaDobaVM}" HorizontalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="15*"/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="620*"/>
                         </Grid.RowDefinitions>
-                        <Grid Name="PrubeznaDobaDataGrid" Grid.Row="2" Height="262" VerticalAlignment="Top">
-                            <DataGrid x:Name="PrubeznaDobaDatagrid" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Grid Name="PrubeznaDobaData" Grid.Row="2" Height="270" VerticalAlignment="Top">
+                            <DataGrid x:Name="PrubeznaDobaDatagrid" ItemsSource="{Binding PrubeznaDobaVM}" ColumnWidth="*" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Pracoviště" Width="*" FontFamily="Roboto" CanUserResize="False" CanUserSort="False"/>
-                                    <DataGridTextColumn Header="Čas Operační (tk)" Width="*" CanUserSort="False" CanUserReorder="False"/>
-                                    <DataGridTextColumn Header="Čas Nastavovací (tpz)" Width="*" CanUserSort="False" CanUserReorder="False"/>
-                                    <DataGridTextColumn Header="Čas mezioperační (tm)" Width="*" CanUserReorder="False" CanUserSort="True"/>
+                                    <DataGridTextColumn Binding="{Binding PracovisteNumber}" Header="Pracoviště" Width="100" CanUserResize="False" CanUserSort="False" CanUserReorder="False" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Tk}" Header="Čas Operační (Tk)" CanUserResize="False" CanUserSort="False" CanUserReorder="False"/>
+                                    <DataGridTextColumn Binding="{Binding Tpz}" Header="Čas Nastavovaci (Tpz)" CanUserResize="False" CanUserSort="False" CanUserReorder="False"/>
+                                    <DataGridTextColumn Binding="{Binding Tm}" Header="Čas mezioperační (Tm)" CanUserSort="False" CanUserReorder="False"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        </Grid>
+                        <Grid Name="PrubeznaDobaInput" Margin="0,275,0,0" Grid.Row="2" Height="61" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="235*" MaxWidth="650"/>
+                                <ColumnDefinition Width="205"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="0*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox SelectedIndex="{Binding SystemZpracovani}" Height="20" VerticalAlignment="Top" Margin="10,18,10,0" FontFamily="Roboto" FontSize="13">
+                                <ComboBoxItem Content="Souběžné předávání jednotlivě"/>
+                                <ComboBoxItem Content="Souběžné předávání v dávkách, seřizování překryté"/>
+                            </ComboBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding DavkaQ}" Margin="10,19,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" Height="19"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding DavkaQD}" Margin="10,19,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="3" Height="19"/>
+                            <Button Style="{StaticResource ButtonStyle}" Command="{Binding VypocitatPrubButton}" Content="Vypočítat" Margin="10,15,10,0" HorizontalAlignment="Stretch" Grid.Column="1" Height="26" VerticalAlignment="Top"/>
+                            <Label Style="{StaticResource LabelStyle}" Content="Systémy:" Margin="0,-2,0,0" VerticalAlignment="Top" Height="26" HorizontalAlignment="Left" Width="71"/>
+                            <Label Style="{StaticResource LabelStyle}" Content="Dávka [Q]:" Margin="0,-2,45,0" Grid.Column="2" VerticalAlignment="Top" Height="28"/>
+                            <Label Style="{StaticResource LabelStyle}" Content="Dávka [Qd]:" Margin="0,-2,35,0" Grid.Column="3" VerticalAlignment="Top" Height="28"/>
 
                         </Grid>
-                        <Grid Name="PrubeznaDobaInput" Margin="-3,270,0,286" Grid.Row="2" Grid.ColumnSpan="2">
-
+                        <Grid Name="PrubeznaDobaOutput" Margin="0,336,0,0" Grid.Row="2">
+                            <TextBox Text="{Binding VysledekPrubeznaDoba}" IsReadOnly="True" Background="{x:Null}" Foreground="White" FontFamily="Roboto" FontSize="16"/>
                         </Grid>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding PridatPracovisteButton}" x:Name="PridatPracovisteButton" Content="Přidat pracoviště"  FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="25" Width="150" Grid.Row="1" Margin="0,2,0,3"/>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding OdebratPracovisteButton}" x:Name="OdstranitPracovisteButton" Content="Odstranit pracoviště"  FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="25" Width="150" Grid.Row="1" Margin="155,2,0,3"/>
                     </Grid>
                 </TabItem>
             </TabControl>

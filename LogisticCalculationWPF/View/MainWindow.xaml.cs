@@ -25,11 +25,12 @@ namespace LogisticCalculationWPF
     {
         public MainWindow()
         {
-            InitializeComponent();  
+            InitializeComponent();
             DataContext = new CoreViewModel()
             {
                 QoptVM = new QoptDavkaViewModel(),
-                AnalyzaZasobVM = new AnalyzaZasobViewModel()
+                AnalyzaZasobVM = new AnalyzaZasobViewModel(),
+                PrubeznaDobaVM = new PrubeznaDobaViewModel()
             };
         }
 

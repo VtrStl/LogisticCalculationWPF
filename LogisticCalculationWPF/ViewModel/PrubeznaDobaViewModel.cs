@@ -20,7 +20,7 @@ namespace LogisticCalculationWPF.ViewModel
         public ObservableCollection<Pracoviste> PrubeznaDoba
         {
             get { return prubeznaDoba; }
-            set
+            private set
             {
                 prubeznaDoba = value;
                 OnPropertyChanged(nameof(PrubeznaDoba));
@@ -50,7 +50,7 @@ namespace LogisticCalculationWPF.ViewModel
             get { return vysledekPrubeznaDoba; }
             set { vysledekPrubeznaDoba = value; OnPropertyChanged(nameof(VysledekPrubeznaDoba)); }
         }
-        private int PracovisteCounter = 1;
+        private static int PracovisteCounter = 1;
         public ICommand PridatPracovisteButton { get; set; }
         public ICommand OdebratPracovisteButton { get; set; }
         public ICommand VypocitatPrubButton { get; set; }
@@ -94,5 +94,13 @@ namespace LogisticCalculationWPF.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+    
+    public class Pracoviste
+    {
+        public int? PracovisteNumber { get; set; }
+        public int? Tk { get; set; }
+        public int? Tpz { get; set; }
+        public int? Tm { get; set; }
     }
 }

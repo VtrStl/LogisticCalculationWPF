@@ -38,7 +38,33 @@
     <Style x:Key="TabPanelStyle" TargetType="TabPanel">
         <Setter Property="Visibility" Value="Visible"/>
     </Style>
-    <Style x:Key="DataHeaderStyle" TargetType="DataGridColumnHeader">
+    <Style x:Key="DataGridStyle" TargetType="DataGrid">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="#FF00B3FF"/>
+        <Setter Property="ColumnWidth" Value="*"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="CanUserResizeColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+    </Style>
+    <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#FF00B3FF"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+    </Style>
+    <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#FF00B3FF"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+    <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+        <Setter Property="BorderBrush" Value="#FF00B3FF"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
     </Style>
 </ResourceDictionary>

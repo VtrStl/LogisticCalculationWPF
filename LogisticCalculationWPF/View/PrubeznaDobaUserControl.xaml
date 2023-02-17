@@ -18,7 +18,7 @@
             <RowDefinition Height="620*"/>
         </Grid.RowDefinitions>
         <Grid Name="PrubeznaDobaData" Grid.Row="2" Height="270" VerticalAlignment="Top">
-            <DataGrid x:Name="PrubeznaDobaDatagrid" ItemsSource="{Binding PrubeznaDoba}" ColumnWidth="*" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" AutoGenerateColumns="False">
+            <DataGrid ItemsSource="{Binding PrubeznaDoba}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding PracovisteNumber}" Header="Pracoviště" Width="100" CanUserResize="False" CanUserSort="False" CanUserReorder="False" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Tk}" Header="Čas Operační (Tk)" CanUserResize="False" CanUserSort="False" CanUserReorder="False"/>

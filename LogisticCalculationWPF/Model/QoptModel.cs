@@ -17,11 +17,11 @@ namespace LogisticCalculationWPF.Model
 
         public QoptModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
         { 
-            VelikostPoptavky= Convert.ToDouble(velikostPoptavky);
-            Npz = Convert.ToDouble(npz);
-            Ns = Convert.ToDouble(ns);
-            Nj = Convert.ToDouble(nj);
-            Obdobi = Convert.ToDouble(obdobi);
+            VelikostPoptavky= velikostPoptavky.GetValueOrDefault();
+            Npz = npz.GetValueOrDefault();
+            Ns = ns.GetValueOrDefault();
+            Nj = nj.GetValueOrDefault();
+            Obdobi = obdobi.GetValueOrDefault();
         }
 
         public double Qopt()

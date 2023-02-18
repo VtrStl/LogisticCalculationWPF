@@ -15,7 +15,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class PrubeznaDobaViewModel : INotifyPropertyChanged
     {
-        private PrubeznaDobaModel kalkulace;
+        private PrubeznaDobaModel? kalkulace;
         private ObservableCollection<Pracoviste> prubeznaDoba;
         public ObservableCollection<Pracoviste> PrubeznaDoba
         {
@@ -50,10 +50,10 @@ namespace LogisticCalculationWPF.ViewModel
             get { return vysledekPrubeznaDoba; }
             set { vysledekPrubeznaDoba = value; OnPropertyChanged(nameof(VysledekPrubeznaDoba)); }
         }
-        private static int PracovisteCounter = 1;
-        public ICommand PridatPracovisteButton { get; set; }
-        public ICommand OdebratPracovisteButton { get; set; }
-        public ICommand VypocitatPrubButton { get; set; }
+        private static int PracovisteID = 1;
+        public ICommand PridatPracovisteButton { get; }
+        public ICommand OdebratPracovisteButton { get; }
+        public ICommand VypocitatPrubButton { get; }
 
         public PrubeznaDobaViewModel()
         {
@@ -61,6 +61,7 @@ namespace LogisticCalculationWPF.ViewModel
             PridatPracovisteButton = new RelayCommand(PridatPracoviste);
             OdebratPracovisteButton = new RelayCommand(OdebratPracoviste);
             VypocitatPrubButton = new RelayCommand(VypocitatTabulku);
+            vysledekPrubeznaDoba = "";
         }
 
         private void VypocitatTabulku()
@@ -75,8 +76,8 @@ namespace LogisticCalculationWPF.ViewModel
 
         private void PridatPracoviste()
         {
-            prubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteCounter});
-            PracovisteCounter++;
+            prubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteID});
+            PracovisteID++;
         }
 
         private void OdebratPracoviste()
@@ -84,11 +85,11 @@ namespace LogisticCalculationWPF.ViewModel
             if (prubeznaDoba.Count > 0)
             {
                 prubeznaDoba.RemoveAt(prubeznaDoba.Count - 1);
-                PracovisteCounter--;
+                PracovisteID--;
             }
         }
         
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

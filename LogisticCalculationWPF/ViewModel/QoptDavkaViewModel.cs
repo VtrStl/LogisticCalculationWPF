@@ -13,7 +13,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class QoptDavkaViewModel: INotifyPropertyChanged
     {
-        private QoptModel kalkulace;
+        private QoptModel? kalkulace;
         private double? davka;
         private double? npz;
         private double? ns;
@@ -66,12 +66,11 @@ namespace LogisticCalculationWPF.ViewModel
                 $"Celkové náklady: {kalkulace.CelkoveNaklady()} CZK";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName) 
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

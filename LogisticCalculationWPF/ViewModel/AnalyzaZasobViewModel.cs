@@ -12,7 +12,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class AnalyzaZasobViewModel: INotifyPropertyChanged 
     {
-        private AnalyzaZasobModel Kalkulace;
+        private AnalyzaZasobModel? Kalkulace;
         private double? spotreba;
         private double? objednavaciDavka;
         private double? dnyTydny;
@@ -20,19 +20,19 @@ namespace LogisticCalculationWPF.ViewModel
         private double pokrytiPoptavky;
         private double? dodaciLhuta;
         private int? intervalKontroly;
-        private int _SystemyZasob;
+        private int systemyZasob;
         private string vysledekAnalyzaZasob;
 
-        public double? Spotreba 
-        { 
+        public double? Spotreba
+        {
             get { return spotreba; }
-            set { spotreba = value; OnPropertyChanged(nameof(Spotreba)); }        
+            set { spotreba = value; OnPropertyChanged(nameof(Spotreba)); }
         }
-        public double? ObjednavaciDavka 
+        public double? ObjednavaciDavka
         {
             get { return objednavaciDavka; }
             set { objednavaciDavka = value; OnPropertyChanged(nameof(ObjednavaciDavka)); }
-        }        
+        }       
         public double PojistnaZasoba 
         {
             get { return pojistnaZasoba; } 
@@ -60,26 +60,27 @@ namespace LogisticCalculationWPF.ViewModel
         }
         public int SystemyZasob 
         {
-            get { return _SystemyZasob; }
-            set { _SystemyZasob = value; OnPropertyChanged(nameof(SystemyZasob)); }
+            get { return systemyZasob; }
+            set { systemyZasob = value; OnPropertyChanged(nameof(SystemyZasob)); }
         }
         public string VysledekAnalyzaZasob 
         {
             get { return vysledekAnalyzaZasob; }
             set { vysledekAnalyzaZasob = value; OnPropertyChanged(nameof(VysledekAnalyzaZasob)); }
         }
-        public ICommand VypocitejAnalyzaZasob { get; set; }
-        public ICommand PrevodDnyNaTydny { get; set; }
+        public ICommand VypocitejAnalyzaZasob { get; }
+        public ICommand PrevodDnyNaTydny { get; }
 
         public AnalyzaZasobViewModel()
         {
             VypocitejAnalyzaZasob = new RelayCommand(AnalyzaZasobVypocet);
             PrevodDnyNaTydny = new RelayCommand(Prevod);
+            vysledekAnalyzaZasob = "";
         }
 
         private void AnalyzaZasobVypocet()
         {
-            Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, _SystemyZasob);
+            Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, systemyZasob);
             VysledekAnalyzaZasob = $"{Kalkulace.ObjednavaciUrovenVysledek()} Ks budem objednávat\r\n" +
                 $"{Kalkulace.PrumernaZasoba()} týdnů nám vystačí zásoba\r\n" +
                 $"{Kalkulace.PocetObjednavekZaRok()}x budeme objednávat za rok";
@@ -90,7 +91,7 @@ namespace LogisticCalculationWPF.ViewModel
             DnyTydny = Math.Round(Convert.ToDouble(dnyTydny) / 7, 2);
         }
                
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

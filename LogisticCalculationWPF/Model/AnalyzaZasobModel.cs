@@ -22,13 +22,13 @@ namespace LogisticCalculationWPF.Model
         public AnalyzaZasobModel(double? spotreba, double? objednavaciDavka, double? pojistnaZasoba, double? pokrytiPoptavky, double? dodaciLhuta, double? dnynarok,
             int? intervalKontroly, int systemy)
         {
-            Spotreba = Convert.ToDouble(spotreba);
-            ObjednavaciDavka = Convert.ToDouble(objednavaciDavka);
-            PojistnaZasoba = Convert.ToDouble(pojistnaZasoba);
-            PokrytiPoptavky = Convert.ToDouble(pokrytiPoptavky);
-            DodaciLhuta = Convert.ToDouble(dodaciLhuta);
-            DnyNaTyden = Convert.ToDouble(dnynarok);
-            IntervalKontroly = Convert.ToInt32(intervalKontroly);
+            Spotreba = spotreba.GetValueOrDefault();
+            ObjednavaciDavka = objednavaciDavka.GetValueOrDefault();
+            PojistnaZasoba = pojistnaZasoba.GetValueOrDefault();
+            PokrytiPoptavky = pokrytiPoptavky.GetValueOrDefault();
+            DodaciLhuta = dodaciLhuta.GetValueOrDefault();
+            DnyNaTyden = dnynarok.GetValueOrDefault();
+            IntervalKontroly = intervalKontroly.GetValueOrDefault();
             Systemy = systemy;
             OcekavanaSpotreba = Spotreba / DnyNaTyden;
             XPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;

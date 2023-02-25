@@ -26,6 +26,16 @@ namespace LogisticCalculationWPF.ViewModel
                 OnPropertyChanged(nameof(PrubeznaDoba));
             }
         }
+        private ObservableCollection<VysledekPrubeznaDobaDG> vysledekPrubeznaDoba;
+        public ObservableCollection<VysledekPrubeznaDobaDG> VysledekPrubeznaDoba
+        {
+            get { return vysledekPrubeznaDoba; }
+            private set 
+            { 
+                vysledekPrubeznaDoba = value; 
+                OnPropertyChanged(nameof(VysledekPrubeznaDoba)); 
+            }
+        }     
         private int davkaQ;
         public int DavkaQ
         {
@@ -44,12 +54,7 @@ namespace LogisticCalculationWPF.ViewModel
             get { return systemZpracovani;}
             set { systemZpracovani = value; OnPropertyChanged(nameof(SystemZpracovani)); }
         }
-        private string vysledekPrubeznaDoba;
-        public string VysledekPrubeznaDoba
-        {
-            get { return vysledekPrubeznaDoba; }
-            set { vysledekPrubeznaDoba = value; OnPropertyChanged(nameof(VysledekPrubeznaDoba)); }
-        }
+        
         private static int PracovisteID = 1;
         public ICommand PridatPracovisteButton { get; }
         public ICommand OdebratPracovisteButton { get; }
@@ -58,10 +63,10 @@ namespace LogisticCalculationWPF.ViewModel
         public PrubeznaDobaViewModel()
         {
             prubeznaDoba = new ObservableCollection<Pracoviste>();
+            vysledekPrubeznaDoba = new ObservableCollection<VysledekPrubeznaDobaDG>();
             PridatPracovisteButton = new RelayCommand(PridatPracoviste);
             OdebratPracovisteButton = new RelayCommand(OdebratPracoviste);
             VypocitatPrubButton = new RelayCommand(VypocitatTabulku);
-            vysledekPrubeznaDoba = "";
         }
 
         private void VypocitatTabulku()
@@ -69,7 +74,8 @@ namespace LogisticCalculationWPF.ViewModel
             try
             {
                 kalkulace = new PrubeznaDobaModel(prubeznaDoba, davkaQ, davkaQD, systemZpracovani);
-                VysledekPrubeznaDoba = $"T = {kalkulace.PrubeznaDobaVysledek()} min\r\nPotřebný počet pracovníků: {kalkulace.PocetPracovniku}";
+                VysledekPrubeznaDoba.Add(new VysledekPrubeznaDobaDG() { SystemyPrubeznaDoba = kalkulace.PrubeznaDobaSystemyText(), 
+                    PrubeznaDobaVysledek = kalkulace.PrubeznaDobaVysledek(), PocetPracovniku = kalkulace.PocetPracovniku, DavkaQin = DavkaQ, DavkaQDin = DavkaQD });                
             }
             catch (Exception ex) { MessageBox.Show("Chyba: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
@@ -103,5 +109,14 @@ namespace LogisticCalculationWPF.ViewModel
         public int? Tk { get; set; }
         public int? Tpz { get; set; }
         public int? Tm { get; set; }
+    }
+    
+    public class VysledekPrubeznaDobaDG
+    {
+        public string? SystemyPrubeznaDoba { get; set; }
+        public int PrubeznaDobaVysledek { get; set; }
+        public int PocetPracovniku { get; set; }
+        public int DavkaQin { get; set; }
+        public int DavkaQDin { get; set; }
     }
 }

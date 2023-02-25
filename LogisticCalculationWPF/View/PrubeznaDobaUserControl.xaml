@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LogisticCalculationWPF.View" xmlns:viewmodel="clr-namespace:LogisticCalculationWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:PrubeznaDobaViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="662" d:DesignWidth="651">
+             d:DesignHeight="662" d:DesignWidth="701">
 
     <UserControl.DataContext>
         <viewmodel:PrubeznaDobaViewModel/>
@@ -47,11 +47,18 @@
             <Label Style="{StaticResource LabelStyle}" Content="Dávka [Qd]:" Margin="0,-2,35,0" Grid.Column="3" VerticalAlignment="Top" Height="28"/>
         </Grid>
         <Grid Name="PrubeznaDobaOutput" Margin="0,336,0,0" Grid.Row="2">
-            <TextBox Text="{Binding VysledekPrubeznaDoba}" IsReadOnly="True" Foreground="White" FontFamily="Roboto" FontSize="16">
-                <TextBox.Background>
+            <DataGrid ItemsSource="{Binding VysledekPrubeznaDoba}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" CanUserResizeColumns="False" CanUserResizeRows="False" Grid.Column="3" Grid.Row="1" Grid.RowSpan="9">
+                <DataGrid.Background>
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
-                </TextBox.Background>
-            </TextBox>
+                </DataGrid.Background>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding SystemyPrubeznaDoba}" Header="System" Width="0.6*" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PrubeznaDobaVysledek}" Header="Průběžná doba (minuty)" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PocetPracovniku}" Header="Počet zaměstnanců" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding DavkaQin}" Header="DavkaQ" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding DavkaQDin}" Header="DavkaQD" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
         <Button Style="{StaticResource ButtonStyle}" Command="{Binding PridatPracovisteButton}" x:Name="PridatPracovisteButton" Content="Přidat pracoviště"  FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="25" Width="150" Grid.Row="1" Margin="0,2,0,3"/>
         <Button Style="{StaticResource ButtonStyle}" Command="{Binding OdebratPracovisteButton}" x:Name="OdstranitPracovisteButton" Content="Odstranit pracoviště"  FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Stretch" Height="25" Width="150" Grid.Row="1" Margin="155,2,0,3"/>

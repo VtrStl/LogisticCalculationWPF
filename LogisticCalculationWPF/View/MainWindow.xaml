@@ -8,7 +8,7 @@
         xmlns:viewmodel="clr-namespace:LogisticCalculationWPF.ViewModel"
         Title="MainWindow" 
         Height="700" 
-        Width="950" 
+        Width="1000" 
         MinHeight="650"
         MinWidth="850"
         WindowStartupLocation="CenterScreen"
@@ -55,7 +55,7 @@
                 </TabControl.Background>
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">
-                        <Setter Property="Visibility" Value="Visible"/>
+                        <Setter Property="Visibility" Value="Collapsed"/>
                     </Style>
                 </TabControl.Resources>
                 <TabItem x:Name="UvodTab" Header="Úvodni Obrazovka">

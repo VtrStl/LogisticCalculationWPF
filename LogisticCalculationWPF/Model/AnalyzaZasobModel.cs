@@ -56,7 +56,7 @@ namespace LogisticCalculationWPF.Model
             }
         }
         
-        public double ObjednavaciUrovenVysledek()
+        public double ObjUrovenVysledek()
         {
             return Systemy switch
             {
@@ -65,7 +65,17 @@ namespace LogisticCalculationWPF.Model
                 _ => 0
             }; 
             
-        }        
+        }       
+        
+        public string ObjUrovenText()
+        {
+            return Systemy switch
+            {
+                0 => "B,Q",
+                1 => "s,Q",
+                _ => ""
+            }; 
+        }
         public double PrumernaZasoba()
         {
             double TydnyNaDny = DnyNaTyden * 7;

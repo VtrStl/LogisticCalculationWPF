@@ -5,23 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LogisticCalculationWPF" xmlns:viewmodel="clr-namespace:LogisticCalculationWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:QoptDavkaViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="662" d:DesignWidth="651">
-    
+             d:DesignHeight="662" d:DesignWidth="701">
+
     <UserControl.DataContext>
         <viewmodel:QoptDavkaViewModel/>
     </UserControl.DataContext>
-    
+
     <Grid Name="DavkaGrid">
-        <Grid Name="DavkaInputGrid" UseLayoutRounding="False" Height="362" VerticalAlignment="Top">
+        <Grid Name="DavkaGridData" UseLayoutRounding="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="48*"/>
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="247*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150*"/>
@@ -29,18 +30,18 @@
                 <ColumnDefinition Width="150*"/>
             </Grid.ColumnDefinitions>
             <Label Style="{StaticResource LabelStyle}" x:Name="VelikostDavkyLabel" Content="Celková velikost úkolu/poptávky za období [D]" 
-                                   Grid.Column="1" Grid.Row="0" Margin="5,8,0,24" Width="340" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
-            <Label Style="{StaticResource LabelStyle}" x:Name="NpzLabel" Content="Náklady pro jednu dávku (CZK) [Npz]" Width="340" Grid.Column="1" Grid.Row="2"/>
-            <Label Style="{StaticResource LabelStyle}" x:Name="NsLabel" Content="Celkové náklady na držení zásob (CZK) [Ns]" Width="340" Grid.Column="1" Grid.Row="3"/>
-            <Label Style="{StaticResource LabelStyle}" x:Name="NjLabel" Content="Naklady jednice v dávce (hodnota 1 pokud není jinak) [Nj]" Width="340" Grid.Column="1" Grid.Row="4"/>
-            <Label Style="{StaticResource LabelStyle}" x:Name="ObdobiLabel" Content="Celková velikost úkolu/poptávky za období [D]" Width="340" Grid.Column="1" Grid.Row="5"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="VelikostDavkyTxb" Text="{Binding Davka}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NpzTxb" Text="{Binding Npz}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NsTxb" Text="{Binding Ns}" Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NjTxb" Text="{Binding Nj}" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="ObdobiTxb" Text="{Binding Obdobi}" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap"/>
-            <Button Style="{StaticResource ButtonStyle}" x:Name="QopqVypocetButton" Command="{Binding VypocitejQoptBt}" Content="Vypočítat" Grid.Column="1" Grid.Row="6" Width="181" Height="31"/>
-            <Border BorderThickness="6" Grid.RowSpan="8" Opacity="0.8" Padding="0,0,3,0" Grid.ColumnSpan="3" Margin="146,0,146,0">
+                                   Grid.Column="1" Grid.Row="0" Margin="12,13,7,29" Grid.RowSpan="2"/>
+            <Label Style="{StaticResource LabelStyle}" x:Name="NpzLabel" Content="Náklady pro jednu dávku (CZK) [Npz]" Grid.Column="1" Grid.Row="2" Margin="10,10,9,32"/>
+            <Label Style="{StaticResource LabelStyle}" x:Name="NsLabel" Content="Celkové náklady na držení zásob (CZK) [Ns]" Grid.Column="1" Grid.Row="3" Margin="10,10,9,32"/>
+            <Label Style="{StaticResource LabelStyle}" x:Name="NjLabel" Content="Naklady jednice v dávce (hodnota 1 pokud není jinak) [Nj]" Grid.Column="1" Grid.Row="4" Margin="10,10,9,32"/>
+            <Label Style="{StaticResource LabelStyle}" x:Name="ObdobiLabel" Content="Celková velikost úkolu/poptávky za období [D]" Grid.Column="1" Grid.Row="5" Margin="10,10,9,32"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="VelikostDavkyTxb" Text="{Binding Davka}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Margin="20,38,20,11"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NpzTxb" Text="{Binding Npz}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Margin="20,38,20,11"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NsTxb" Text="{Binding Ns}" Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap" Margin="20,38,20,11"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NjTxb" Text="{Binding Nj}" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Margin="20,38,20,11"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="ObdobiTxb" Text="{Binding Obdobi}" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" Margin="20,38,20,11"/>
+            <Button Style="{StaticResource ButtonStyle}" x:Name="QopqVypocetButton" Command="{Binding VypocitejQoptBt}" Content="Vypočítat" Grid.Column="1" Grid.Row="6" Width="181" Height="32"/>
+            <Border BorderThickness="6" Grid.RowSpan="7" Opacity="0.8" Padding="0,0,3,0" Grid.ColumnSpan="3" Margin="146,0,146,0">
                 <Border.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF0061FF"/>
@@ -49,16 +50,17 @@
                     </LinearGradientBrush>
                 </Border.BorderBrush>
             </Border>
-        </Grid>
-        <Grid Name="DavkaOutputGrid" Margin="-2,362,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBox x:Name="DavkaVysledekTextBox" TextWrapping="Wrap" Text="{Binding VysledekQopt}" Foreground="White" BorderBrush="{x:Null}" FontSize="16" FontFamily="Roboto" IsReadOnly="True">
-                <TextBox.Background>
+            <DataGrid ItemsSource="{Binding VysledekQOPT}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" CanUserResizeColumns="False" CanUserResizeRows="False" Grid.Row="8" Grid.ColumnSpan="3">
+                <DataGrid.Background>
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
-                </TextBox.Background>
-            </TextBox>
+                </DataGrid.Background>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Qopt}" Header="Optimální dávka" CanUserResize="False" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PocetDavek}" Header="Počet dávek" CanUserResize="False" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PeriodicitaZadavani}" Header="Periodicita Zadávání" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding CelkoveNaklady}" Header="Celkové náklady" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

@@ -8,62 +8,64 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace LogisticCalculationWPF.ViewModel
 {
     public class QoptDavkaViewModel: INotifyPropertyChanged
     {
         private QoptModel? kalkulace;
+        private ObservableCollection<VysledekQoptDG> vysledekQOPT;
+        public ObservableCollection<VysledekQoptDG> VysledekQOPT
+        {
+            get { return vysledekQOPT; }
+            private set
+            {
+                vysledekQOPT = value;
+                OnPropertyChanged(nameof(VysledekQOPT));
+            }
+        }
         private double? davka;
-        private double? npz;
-        private double? ns;
-        private double? nj;
-        private double? obdobi;
-        private string vysledek;
-
         public double? Davka 
         { 
             get { return davka; } 
             set { davka = value; OnPropertyChanged(nameof(Davka)); } 
         }
+        private double? npz;
         public double? Npz 
         { 
             get { return npz; }
             set { npz = value; OnPropertyChanged(nameof(Npz)); } 
         }
+        private double? ns;
         public double? Ns {
             get { return ns; } 
             set { ns = value; OnPropertyChanged(nameof(Ns)); } 
         }
+        private double? nj;
         public double? Nj {
             get { return nj; } 
             set { nj = value; OnPropertyChanged(nameof(Nj)); } 
         }
+        private double? obdobi;
         public double? Obdobi {
             get { return obdobi; } 
             set { obdobi = value; OnPropertyChanged(nameof(obdobi)); } 
         }
-        public string VysledekQopt 
-        { 
-            get { return vysledek; } 
-            set { vysledek = value; OnPropertyChanged(nameof(VysledekQopt)); } 
-        }
-        public ICommand VypocitejQoptBt { get; set; }
+        
+        public ICommand VypocitejQoptBt { get; }
 
         public QoptDavkaViewModel()
         {
+            vysledekQOPT = new ObservableCollection<VysledekQoptDG>();
             VypocitejQoptBt = new RelayCommand(Kalkulace);
-            vysledek = "";
         }
                 
         private void Kalkulace()
         {
             kalkulace = new QoptModel(davka, npz, ns, nj, obdobi);
-            VysledekQopt = 
-                $"Optimální dávka: {kalkulace.Qopt()}\r\n" +
-                $"Počet dávek: {kalkulace.PocetDavek()}\r\n" +
-                $"Periodicita Zadávání: {kalkulace.PeriodicitaZadavani()} dnů (360 dnů)\r\n" +
-                $"Celkové náklady: {kalkulace.CelkoveNaklady()} CZK";
+            VysledekQOPT.Add(new VysledekQoptDG() {Qopt = kalkulace.Qopt(), PocetDavek = kalkulace.PocetDavek(), 
+                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(), CelkoveNaklady = kalkulace.CelkoveNaklady() });        
         }
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
@@ -72,5 +74,13 @@ namespace LogisticCalculationWPF.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+    
+    public class VysledekQoptDG
+    {
+        public double Qopt { get; set; }
+        public double PocetDavek { get; set; }
+        public double PeriodicitaZadavani { get; set; }
+        public double CelkoveNaklady { get; set; }
     }
 }

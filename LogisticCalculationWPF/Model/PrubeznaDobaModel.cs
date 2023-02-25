@@ -51,5 +51,14 @@ namespace LogisticCalculationWPF.Model
                 _ => 0
             };
         }
+        public string PrubeznaDobaSystemyText()
+        {
+            return SystemZpracovani switch
+            {
+                0 => "Souběžně, jednotlivě, překryté",
+                1 => "Souběžně, po dávkách, překryté",
+                _ => ""
+            }; 
+        }
     }
 }

@@ -52,8 +52,10 @@
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
                 </DataGrid.Background>
                 <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PrubeznaDobaID}" Header="ID" Width="30" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding SystemyPrubeznaDoba}" Header="System" Width="0.6*" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PrubeznaDobaVysledek}" Header="Průběžná doba (minuty)" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PocetPracovist}" Header="Počet Pracovišt" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PocetPracovniku}" Header="Počet zaměstnanců" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding DavkaQin}" Header="DavkaQ" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding DavkaQDin}" Header="DavkaQD" IsReadOnly="True"/>

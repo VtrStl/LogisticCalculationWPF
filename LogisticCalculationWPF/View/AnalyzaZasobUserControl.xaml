@@ -58,6 +58,7 @@
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
                 </DataGrid.Background>
                 <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding AnalyzaZasobID}" Header="ID" Width="30" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding SystemAnalyzaZasob}" Header="System" Width="0.6*" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding ObjednavaciUrovenVysledek}" Header="Obj úroveň (ks)" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PrumernaZasoba}" Header="Avg zasoba(tydny)" IsReadOnly="True"/>

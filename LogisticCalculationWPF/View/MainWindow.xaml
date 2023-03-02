@@ -55,7 +55,7 @@
                 </TabControl.Background>
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">
-                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Visibility" Value="Visible"/>
                     </Style>
                 </TabControl.Resources>
                 <TabItem x:Name="UvodTab" Header="Úvodni Obrazovka">
@@ -69,6 +69,27 @@
                 </TabItem>
                 <TabItem x:Name="PrubeznaDobaTab" Header="Průběžná doba">
                     <UserControl:PrubeznaDobaUserControl DataContext="{Binding PrubeznaDobaVM}"/>
+                </TabItem>
+                <TabItem x:Name="SpravaZamestnancuTab" Header="Správa Zaměstnanců" DataContext="{Binding SpravaVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70*"/>
+                            <RowDefinition Height="550*"/>
+                            <RowDefinition Height="70*"/>
+                        </Grid.RowDefinitions>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Test" HorizontalAlignment="Left" Margin="36,0,0,0" Width="210"/>
+                        <DataGrid ItemsSource="{Binding Zamestnanec}" AutoGenerateColumns="False" Grid.Row="1" Height="400">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30"/>
+                                <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*"/>
+                                <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*"/>
+                                <DataGridTextColumn Header="Narození" Binding="{Binding Narozeni}" Width="*"/>
+                                <DataGridTextColumn Header="Pracovní poměr" Binding="{Binding PracovniPomer}" Width="*"/>
+                                <DataGridTextColumn Header="Zaměstnán od" Binding="{Binding ZamestnanOd}" Width="*"/>
+                                <DataGridTextColumn Header="Zaměstnán do" Binding="{Binding ZamestnanDo}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>

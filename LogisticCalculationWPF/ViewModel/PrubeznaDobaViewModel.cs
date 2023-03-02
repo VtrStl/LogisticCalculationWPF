@@ -74,8 +74,17 @@ namespace LogisticCalculationWPF.ViewModel
             try
             {
                 kalkulace = new PrubeznaDobaModel(prubeznaDoba, davkaQ, davkaQD, systemZpracovani);
-                VysledekPrubeznaDoba.Add(new VysledekPrubeznaDobaDG() { SystemyPrubeznaDoba = kalkulace.PrubeznaDobaSystemyText(), 
-                    PrubeznaDobaVysledek = kalkulace.PrubeznaDobaVysledek(), PocetPracovniku = kalkulace.PocetPracovniku, DavkaQin = DavkaQ, DavkaQDin = DavkaQD });                
+                VysledekPrubeznaDoba.Add(new VysledekPrubeznaDobaDG()
+                {
+                    PrubeznaDobaID = VysledekPrubeznaDoba.Count + 1,
+                    SystemyPrubeznaDoba = kalkulace.PrubeznaDobaSystemyText(),
+                    PrubeznaDobaVysledek = kalkulace.PrubeznaDobaVysledek(),
+                    PocetPracovist = PracovisteID - 1,
+                    PocetPracovniku = kalkulace.PocetPracovniku,
+                    DavkaQin = DavkaQ,
+                    DavkaQDin = DavkaQD
+                }) ;
+                
             }
             catch (Exception ex) { MessageBox.Show("Chyba: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
@@ -113,8 +122,10 @@ namespace LogisticCalculationWPF.ViewModel
     
     public class VysledekPrubeznaDobaDG
     {
+        public int PrubeznaDobaID {  get; set; }
         public string? SystemyPrubeznaDoba { get; set; }
         public int PrubeznaDobaVysledek { get; set; }
+        public int PocetPracovist { get; set; }
         public int PocetPracovniku { get; set; }
         public int DavkaQin { get; set; }
         public int DavkaQDin { get; set; }

@@ -64,8 +64,14 @@ namespace LogisticCalculationWPF.ViewModel
         private void Kalkulace()
         {
             kalkulace = new QoptModel(davka, npz, ns, nj, obdobi);
-            VysledekQOPT.Add(new VysledekQoptDG() {Qopt = kalkulace.Qopt(), PocetDavek = kalkulace.PocetDavek(), 
-                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(), CelkoveNaklady = kalkulace.CelkoveNaklady() });        
+            VysledekQOPT.Add(new VysledekQoptDG() 
+            {
+                QoptID = vysledekQOPT.Count + 1,
+                Qopt = kalkulace.Qopt(), 
+                PocetDavek = kalkulace.PocetDavek(), 
+                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(), 
+                CelkoveNaklady = kalkulace.CelkoveNaklady() 
+            });        
         }
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
@@ -78,6 +84,7 @@ namespace LogisticCalculationWPF.ViewModel
     
     public class VysledekQoptDG
     {
+        public int QoptID { get; set; }
         public double Qopt { get; set; }
         public double PocetDavek { get; set; }
         public double PeriodicitaZadavani { get; set; }

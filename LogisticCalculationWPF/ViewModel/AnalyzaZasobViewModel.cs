@@ -90,8 +90,14 @@ namespace LogisticCalculationWPF.ViewModel
         private void AnalyzaZasobVypocet()
         {
             Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, systemyZasob);
-            VysledekAnalyzaZasob.Add(new VysledekAnalyzaZasobDG() { SystemAnalyzaZasob = Kalkulace.ObjUrovenText(),
-                ObjednavaciUrovenVysledek = Kalkulace.ObjUrovenVysledek(), PrumernaZasoba = Kalkulace.PrumernaZasoba(), PocetObjednavekZaRok = Kalkulace.PocetObjednavekZaRok() }); 
+            VysledekAnalyzaZasob.Add(new VysledekAnalyzaZasobDG() 
+            { 
+                AnalyzaZasobID = VysledekAnalyzaZasob.Count + 1,
+                SystemAnalyzaZasob = Kalkulace.ObjUrovenText(),
+                ObjednavaciUrovenVysledek = Kalkulace.ObjUrovenVysledek(), 
+                PrumernaZasoba = Kalkulace.PrumernaZasoba(), 
+                PocetObjednavekZaRok = Kalkulace.PocetObjednavekZaRok() 
+            }); 
         }
         
         private void Prevod()
@@ -109,6 +115,7 @@ namespace LogisticCalculationWPF.ViewModel
     
     public class VysledekAnalyzaZasobDG
     {
+        public int AnalyzaZasobID { get; set; }
         public string? SystemAnalyzaZasob { get; set; }
         public double ObjednavaciUrovenVysledek { get; set; }
         public double PrumernaZasoba { get; set; }

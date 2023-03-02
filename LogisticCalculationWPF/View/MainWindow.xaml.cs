@@ -30,7 +30,8 @@ namespace LogisticCalculationWPF
             {
                 QoptVM = new QoptDavkaViewModel(),
                 AnalyzaZasobVM = new AnalyzaZasobViewModel(),
-                PrubeznaDobaVM = new PrubeznaDobaViewModel()
+                PrubeznaDobaVM = new PrubeznaDobaViewModel(),
+                SpravaVM = new SpravaZamestnancuViewModel()
             };
         }
 

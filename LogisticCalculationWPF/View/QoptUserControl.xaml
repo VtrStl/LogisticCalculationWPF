@@ -55,6 +55,7 @@
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
                 </DataGrid.Background>
                 <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding QoptID}" Header="ID" Width="30" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Qopt}" Header="Optimální dávka" CanUserResize="False" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PocetDavek}" Header="Počet dávek" CanUserResize="False" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PeriodicitaZadavani}" Header="Periodicita Zadávání" IsReadOnly="True"/>

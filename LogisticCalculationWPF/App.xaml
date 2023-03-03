@@ -1,9 +1,15 @@
 ﻿<Application x:Class="LogisticCalculationWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LogisticCalculationWPF.View"
+             xmlns:viewmodel="clr-namespace:LogisticCalculationWPF.ViewModel"
+             xmlns:view="clr-namespace:LogisticCalculationWPF.View"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="View/Styles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <viewmodel:DateTimeToShortDateStringConverter x:Key="DateTimeToShortDateStringConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

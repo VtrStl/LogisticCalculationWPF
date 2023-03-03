@@ -8,10 +8,9 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LogisticCalculationWPF.Model;
 using System.Windows.Input;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Data;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace LogisticCalculationWPF.ViewModel
 {
@@ -38,13 +37,16 @@ namespace LogisticCalculationWPF.ViewModel
         {
             _zamestnanecRepository = new ZamestnanecRepository(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ZamestnanciDB;Integrated Security=True");
             NacistDatabaziBT = new RelayCommand(NactiDatabazi);
-            Zamestnanec = new ObservableCollection<ZamestnanecModel>(_zamestnanecRepository.ZiskejZamestnance());
+            _zamestnanec = new ObservableCollection<ZamestnanecModel>();
         }
 
         private void NactiDatabazi()
         {
-            Zamestnanec = new ObservableCollection<ZamestnanecModel>(_zamestnanecRepository.ZiskejZamestnance());
-            MessageBox.Show("funguji");
+            var zamestnanci = _zamestnanecRepository.ZiskejZamestnance();
+            foreach (var zamestnanec in zamestnanci)
+            {
+                Zamestnanec.Add(zamestnanec);
+            }
         }
         
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
@@ -52,14 +54,30 @@ namespace LogisticCalculationWPF.ViewModel
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
-        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        }        
+    }
+    
+    public class DateTimeToShortDateStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
+            if (value is DateOnly dateTime)
             {
-                field = value;
-                OnPropertyChanged(propertyName);
+                CultureInfo customCulture = new CultureInfo("cs-CZ");
+                return dateTime.ToString("d", customCulture);
+            }
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (DateTime.TryParse((string)value, out DateTime result))
+            {
+                return DateOnly.FromDateTime(result);
+            }
+            else
+            {
+                return Binding.DoNothing;
             }
         }
     }

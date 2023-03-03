@@ -1,9 +1,4 @@
-﻿using LogisticCalculationWPF.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace LogisticCalculationWPF.Model
 {
@@ -15,9 +10,9 @@ namespace LogisticCalculationWPF.Model
         private double Nj { get; set; }
         private double Obdobi { get; set; }
 
-        public QoptModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi) 
-        { 
-            VelikostPoptavky= velikostPoptavky.GetValueOrDefault();
+        public QoptModel(double? velikostPoptavky, double? npz, double? ns, double? nj, double? obdobi)
+        {
+            VelikostPoptavky = velikostPoptavky.GetValueOrDefault();
             Npz = npz.GetValueOrDefault();
             Ns = ns.GetValueOrDefault();
             Nj = nj.GetValueOrDefault();
@@ -28,12 +23,12 @@ namespace LogisticCalculationWPF.Model
         {
             return Math.Ceiling(Math.Sqrt(2 * VelikostPoptavky * Npz) / Math.Sqrt(Nj * Ns * Obdobi));
         }
-        
+
         public double PocetDavek()
         {
             return Math.Ceiling(VelikostPoptavky / Qopt());
         }
-        
+
         public double PeriodicitaZadavani()
         {
             return Math.Ceiling(360 * Obdobi / PocetDavek());
@@ -41,7 +36,7 @@ namespace LogisticCalculationWPF.Model
         public double CelkoveNaklady()
         {
             double PrislusneNaklady = Qopt() / 2 * Nj * Ns * Obdobi;
-            return Math.Round(VelikostPoptavky / Qopt() * Npz + PrislusneNaklady, 2);            
+            return Math.Round(VelikostPoptavky / Qopt() * Npz + PrislusneNaklady, 2);
         }
     }
 }

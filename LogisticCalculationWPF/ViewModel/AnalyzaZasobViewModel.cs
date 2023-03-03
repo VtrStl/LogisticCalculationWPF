@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using LogisticCalculationWPF.Model;
+using System;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace LogisticCalculationWPF.ViewModel
 {
-    public class AnalyzaZasobViewModel: INotifyPropertyChanged 
+    public class AnalyzaZasobViewModel : INotifyPropertyChanged
     {
         private AnalyzaZasobModel? Kalkulace;
         private ObservableCollection<VysledekAnalyzaZasobDG> vysledekAnalyzaZasob;
@@ -39,9 +34,9 @@ namespace LogisticCalculationWPF.ViewModel
         }
 
         private double pojistnaZasoba;
-        public double PojistnaZasoba 
+        public double PojistnaZasoba
         {
-            get { return pojistnaZasoba; } 
+            get { return pojistnaZasoba; }
             set { pojistnaZasoba = value; }
         }
         private double pokrytiPoptavky;
@@ -63,20 +58,20 @@ namespace LogisticCalculationWPF.ViewModel
             set { dnyTydny = value; OnPropertyChanged(nameof(DnyTydny)); }
         }
         private int? intervalKontroly;
-        public int? IntervalKontroly 
+        public int? IntervalKontroly
         {
             get { return intervalKontroly; }
-            set { intervalKontroly = value;}
+            set { intervalKontroly = value; }
         }
         private int systemyZasob;
-        public int SystemyZasob 
+        public int SystemyZasob
         {
             get { return systemyZasob; }
             set { systemyZasob = value; OnPropertyChanged(nameof(SystemyZasob)); }
 
-            
-        }                
-        
+
+        }
+
         public ICommand VypocitejAnalyzaZasob { get; }
         public ICommand PrevodDnyNaTydny { get; }
 
@@ -90,21 +85,21 @@ namespace LogisticCalculationWPF.ViewModel
         private void AnalyzaZasobVypocet()
         {
             Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, systemyZasob);
-            VysledekAnalyzaZasob.Add(new VysledekAnalyzaZasobDG() 
-            { 
+            VysledekAnalyzaZasob.Add(new VysledekAnalyzaZasobDG()
+            {
                 AnalyzaZasobID = VysledekAnalyzaZasob.Count + 1,
                 SystemAnalyzaZasob = Kalkulace.ObjUrovenText(),
-                ObjednavaciUrovenVysledek = Kalkulace.ObjUrovenVysledek(), 
-                PrumernaZasoba = Kalkulace.PrumernaZasoba(), 
-                PocetObjednavekZaRok = Kalkulace.PocetObjednavekZaRok() 
-            }); 
+                ObjednavaciUrovenVysledek = Kalkulace.ObjUrovenVysledek(),
+                PrumernaZasoba = Kalkulace.PrumernaZasoba(),
+                PocetObjednavekZaRok = Kalkulace.PocetObjednavekZaRok()
+            });
         }
-        
+
         private void Prevod()
         {
             DnyTydny = Math.Round(Convert.ToDouble(dnyTydny) / 7, 2);
         }
-               
+
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -112,7 +107,7 @@ namespace LogisticCalculationWPF.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    
+
     public class VysledekAnalyzaZasobDG
     {
         public int AnalyzaZasobID { get; set; }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LogisticCalculationWPF.Model
 {
@@ -33,7 +29,7 @@ namespace LogisticCalculationWPF.Model
             OcekavanaSpotreba = Spotreba / DnyNaTyden;
             XPojistnaZasoba = OcekavanaSpotreba * PokrytiPoptavky;
         }
-        
+
         private double BQsystem()
         {
             switch (PokrytiPoptavky)
@@ -41,7 +37,7 @@ namespace LogisticCalculationWPF.Model
                 case > 0:
                     return Math.Ceiling(XPojistnaZasoba + DodaciLhuta * OcekavanaSpotreba);
                 default:
-                    return Math.Ceiling(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba);                    
+                    return Math.Ceiling(PojistnaZasoba + DodaciLhuta * OcekavanaSpotreba);
             }
         }
 
@@ -50,12 +46,12 @@ namespace LogisticCalculationWPF.Model
             switch (PokrytiPoptavky)
             {
                 case > 0:
-                    return Math.Ceiling(XPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly));                     
+                    return Math.Ceiling(XPojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly));
                 default:
                     return Math.Ceiling(PojistnaZasoba + OcekavanaSpotreba * (DodaciLhuta + 0.7 * IntervalKontroly));
             }
         }
-        
+
         public double ObjUrovenVysledek()
         {
             return Systemy switch
@@ -63,10 +59,10 @@ namespace LogisticCalculationWPF.Model
                 0 => BQsystem(),
                 1 => SQsystem(),
                 _ => 0
-            }; 
-            
-        }       
-        
+            };
+
+        }
+
         public string ObjUrovenText()
         {
             return Systemy switch
@@ -74,7 +70,7 @@ namespace LogisticCalculationWPF.Model
                 0 => "B,Q",
                 1 => "s,Q",
                 _ => ""
-            }; 
+            };
         }
         public double PrumernaZasoba()
         {

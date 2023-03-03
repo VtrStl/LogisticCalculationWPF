@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LogisticCalculationWPF.Model
 {
@@ -11,9 +7,9 @@ namespace LogisticCalculationWPF.Model
         public int Id { get; set; }
         public string Jmeno { get; set; }
         public string Prijmeni { get; set; }
-        public DateTime Narozeni { get; set; }
+        public DateOnly Narozeni { get; set; }
         public string PracovniPomer { get; set; }
-        public DateTime ZamestnanOd { get; set; }
-        public DateTime? ZamestnanDo { get; set; }
+        public DateOnly ZamestnanOd { get; set; }
+        public DateOnly? ZamestnanDo { get; set; }
     }
 }

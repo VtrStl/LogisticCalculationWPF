@@ -14,6 +14,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow">
 
+    
     <Window.Resources>
         <FontFamily x:Key="Roboto" >/Fonts/#Roboto</FontFamily>
     </Window.Resources>
@@ -77,16 +78,16 @@
                             <RowDefinition Height="550*"/>
                             <RowDefinition Height="70*"/>
                         </Grid.RowDefinitions>
-                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Test" HorizontalAlignment="Left" Margin="36,0,0,0" Width="210"/>
-                        <DataGrid ItemsSource="{Binding Zamestnanec}" AutoGenerateColumns="False" Grid.Row="1" Height="400">
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" HorizontalAlignment="Left" Margin="36,0,0,0" Width="210"/>
+                        <DataGrid ItemsSource="{Binding Zamestnanec}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Grid.Row="1">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30"/>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30" CanUserResize="False"/>
                                 <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*"/>
                                 <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*"/>
-                                <DataGridTextColumn Header="Narození" Binding="{Binding Narozeni}" Width="*"/>
+                                <DataGridTextColumn Header="Narození" Binding="{Binding Narozeni, Converter={StaticResource DateTimeToShortDateStringConverter}}" Width="*"/>
                                 <DataGridTextColumn Header="Pracovní poměr" Binding="{Binding PracovniPomer}" Width="*"/>
-                                <DataGridTextColumn Header="Zaměstnán od" Binding="{Binding ZamestnanOd}" Width="*"/>
-                                <DataGridTextColumn Header="Zaměstnán do" Binding="{Binding ZamestnanDo}" Width="*"/>
+                                <DataGridTextColumn Header="Zaměstnán od" Binding="{Binding ZamestnanOd, Converter={StaticResource DateTimeToShortDateStringConverter}}" Width="*"/>
+                                <DataGridTextColumn Header="Zaměstnán do" Binding="{Binding ZamestnanDo, Converter={StaticResource DateTimeToShortDateStringConverter}, TargetNullValue=''}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

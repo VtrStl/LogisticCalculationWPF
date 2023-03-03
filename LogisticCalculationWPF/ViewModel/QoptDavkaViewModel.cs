@@ -1,18 +1,12 @@
-﻿using LogisticCalculationWPF.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using LogisticCalculationWPF.Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace LogisticCalculationWPF.ViewModel
 {
-    public class QoptDavkaViewModel: INotifyPropertyChanged
+    public class QoptDavkaViewModel : INotifyPropertyChanged
     {
         private QoptModel? kalkulace;
         private ObservableCollection<VysledekQoptDG> vysledekQOPT;
@@ -26,33 +20,36 @@ namespace LogisticCalculationWPF.ViewModel
             }
         }
         private double? davka;
-        public double? Davka 
-        { 
-            get { return davka; } 
-            set { davka = value; OnPropertyChanged(nameof(Davka)); } 
+        public double? Davka
+        {
+            get { return davka; }
+            set { davka = value; OnPropertyChanged(nameof(Davka)); }
         }
         private double? npz;
-        public double? Npz 
-        { 
+        public double? Npz
+        {
             get { return npz; }
-            set { npz = value; OnPropertyChanged(nameof(Npz)); } 
+            set { npz = value; OnPropertyChanged(nameof(Npz)); }
         }
         private double? ns;
-        public double? Ns {
-            get { return ns; } 
-            set { ns = value; OnPropertyChanged(nameof(Ns)); } 
+        public double? Ns
+        {
+            get { return ns; }
+            set { ns = value; OnPropertyChanged(nameof(Ns)); }
         }
         private double? nj;
-        public double? Nj {
-            get { return nj; } 
-            set { nj = value; OnPropertyChanged(nameof(Nj)); } 
+        public double? Nj
+        {
+            get { return nj; }
+            set { nj = value; OnPropertyChanged(nameof(Nj)); }
         }
         private double? obdobi;
-        public double? Obdobi {
-            get { return obdobi; } 
-            set { obdobi = value; OnPropertyChanged(nameof(obdobi)); } 
+        public double? Obdobi
+        {
+            get { return obdobi; }
+            set { obdobi = value; OnPropertyChanged(nameof(obdobi)); }
         }
-        
+
         public ICommand VypocitejQoptBt { get; }
 
         public QoptDavkaViewModel()
@@ -60,28 +57,28 @@ namespace LogisticCalculationWPF.ViewModel
             vysledekQOPT = new ObservableCollection<VysledekQoptDG>();
             VypocitejQoptBt = new RelayCommand(Kalkulace);
         }
-                
+
         private void Kalkulace()
         {
             kalkulace = new QoptModel(davka, npz, ns, nj, obdobi);
-            VysledekQOPT.Add(new VysledekQoptDG() 
+            VysledekQOPT.Add(new VysledekQoptDG()
             {
                 QoptID = vysledekQOPT.Count + 1,
-                Qopt = kalkulace.Qopt(), 
-                PocetDavek = kalkulace.PocetDavek(), 
-                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(), 
-                CelkoveNaklady = kalkulace.CelkoveNaklady() 
-            });        
+                Qopt = kalkulace.Qopt(),
+                PocetDavek = kalkulace.PocetDavek(),
+                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(),
+                CelkoveNaklady = kalkulace.CelkoveNaklady()
+            });
         }
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
-        protected virtual void OnPropertyChanged(string propertyName) 
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    
+
     public class VysledekQoptDG
     {
         public int QoptID { get; set; }

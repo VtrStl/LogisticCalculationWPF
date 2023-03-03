@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.Input;
+using LogisticCalculationWPF.Model;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using LogisticCalculationWPF.Model;
 
 namespace LogisticCalculationWPF.ViewModel
 {
@@ -30,12 +25,12 @@ namespace LogisticCalculationWPF.ViewModel
         public ObservableCollection<VysledekPrubeznaDobaDG> VysledekPrubeznaDoba
         {
             get { return vysledekPrubeznaDoba; }
-            private set 
-            { 
-                vysledekPrubeznaDoba = value; 
-                OnPropertyChanged(nameof(VysledekPrubeznaDoba)); 
+            private set
+            {
+                vysledekPrubeznaDoba = value;
+                OnPropertyChanged(nameof(VysledekPrubeznaDoba));
             }
-        }     
+        }
         private int davkaQ;
         public int DavkaQ
         {
@@ -51,10 +46,10 @@ namespace LogisticCalculationWPF.ViewModel
         private int systemZpracovani;
         public int SystemZpracovani
         {
-            get { return systemZpracovani;}
+            get { return systemZpracovani; }
             set { systemZpracovani = value; OnPropertyChanged(nameof(SystemZpracovani)); }
         }
-        
+
         private static int PracovisteID = 1;
         public ICommand PridatPracovisteButton { get; }
         public ICommand OdebratPracovisteButton { get; }
@@ -83,15 +78,15 @@ namespace LogisticCalculationWPF.ViewModel
                     PocetPracovniku = kalkulace.PocetPracovniku,
                     DavkaQin = DavkaQ,
                     DavkaQDin = DavkaQD
-                }) ;
-                
+                });
+
             }
             catch (Exception ex) { MessageBox.Show("Chyba: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void PridatPracoviste()
         {
-            prubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteID});
+            prubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteID });
             PracovisteID++;
         }
 
@@ -103,7 +98,7 @@ namespace LogisticCalculationWPF.ViewModel
                 PracovisteID--;
             }
         }
-        
+
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -111,7 +106,7 @@ namespace LogisticCalculationWPF.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    
+
     public class Pracoviste
     {
         public int? PracovisteNumber { get; set; }
@@ -119,10 +114,10 @@ namespace LogisticCalculationWPF.ViewModel
         public int? Tpz { get; set; }
         public int? Tm { get; set; }
     }
-    
+
     public class VysledekPrubeznaDobaDG
     {
-        public int PrubeznaDobaID {  get; set; }
+        public int PrubeznaDobaID { get; set; }
         public string? SystemyPrubeznaDoba { get; set; }
         public int PrubeznaDobaVysledek { get; set; }
         public int PocetPracovist { get; set; }

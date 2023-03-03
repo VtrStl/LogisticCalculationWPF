@@ -32,7 +32,7 @@ namespace LogisticCalculationWPF
                 AnalyzaZasobVM = new AnalyzaZasobViewModel(),
                 PrubeznaDobaVM = new PrubeznaDobaViewModel(),
                 SpravaVM = new SpravaZamestnancuViewModel()
-            };
+            };            
         }
 
         private void UvodButton_Click(object sender, RoutedEventArgs e)

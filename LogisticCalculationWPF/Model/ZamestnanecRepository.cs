@@ -19,8 +19,7 @@ namespace LogisticCalculationWPF.Model
 
         public ZamestnanecRepository(string connectionString)
         {
-            _connectionString = connectionString;
-            
+            _connectionString = connectionString;            
         }
         
         public ObservableCollection<ZamestnanecModel> ZiskejZamestnance()
@@ -28,23 +27,21 @@ namespace LogisticCalculationWPF.Model
             var zamestnanci = new ObservableCollection<ZamestnanecModel>();
 
             using (var connection = new SqlConnection(_connectionString))
-            {
-                SqlCommand query = new SqlCommand("SELECT * FROM dbo.Zamestnanci", connection);
+            {                
+                SqlCommand command = new("SELECT * FROM dbo.Zamestnanci", connection);
                 connection.Open();
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query);              
-                DataTable dataTable = new DataTable();
-                sqlDataAdapter.Fill(dataTable);         
-                foreach (DataRow row in dataTable.Rows) 
+                SqlDataReader reader = command.ExecuteReader();        
+                while(reader.Read()) 
                 {
-                    ZamestnanecModel zamestnanec = new ZamestnanecModel
+                    ZamestnanecModel zamestnanec = new()
                     {
-                        Id = (int)row["ID"],
-                        Jmeno = (string)row["Jmeno"],
-                        Prijmeni = (string)row["Prijmeni"],
-                        Narozeni = (DateTime)row["Narozeni"],
-                        PracovniPomer = (string)row["PracovniPomer"],
-                        ZamestnanOd = (DateTime)row["ZamestnanOd"],
-                        ZamestnanDo = (DateTime?)row["ZamestnanDo"] 
+                        Id = (int)reader["Id"],
+                        Jmeno = (string)reader["Jmeno"],
+                        Prijmeni = (string)reader["Prijmeni"],
+                        Narozeni = DateOnly.FromDateTime((DateTime)reader["Narozeni"]),
+                        PracovniPomer = (string)reader["PracovniPomer"],
+                        ZamestnanOd = DateOnly.FromDateTime((DateTime)reader["ZamestnanOd"]),
+                        ZamestnanDo = reader.IsDBNull(reader.GetOrdinal("ZamestnanDo")) ? null : DateOnly.FromDateTime((DateTime)reader["ZamestnanDo"])
                     };
                     zamestnanci.Add(zamestnanec);                    
                 }                

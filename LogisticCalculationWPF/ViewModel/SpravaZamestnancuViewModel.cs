@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows;
 
 namespace LogisticCalculationWPF.ViewModel
 {
@@ -32,23 +33,45 @@ namespace LogisticCalculationWPF.ViewModel
             }
         }
         public ICommand NacistDatabaziBT { get; }
+        public ICommand UlozitDatabaziBT { get; }
+        public ICommand VycistitDatagridBT { get; }
                 
         public SpravaZamestnancuViewModel()
         {
-            _zamestnanecRepository = new ZamestnanecRepository(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ZamestnanciDB;Integrated Security=True");
-            NacistDatabaziBT = new RelayCommand(NactiDatabazi);
+            _zamestnanecRepository = new ZamestnanecRepository(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ZamestnanciDB;Integrated Security=True");            
             _zamestnanec = new ObservableCollection<ZamestnanecModel>();
+            NacistDatabaziBT = new RelayCommand(NactiDatabazi);
+            UlozitDatabaziBT = new RelayCommand(UlozitZmeny);
+            VycistitDatagridBT = new RelayCommand(VycistitDatagrid);
         }
 
-        private void NactiDatabazi()
+        private async void NactiDatabazi()
         {
-            var zamestnanci = _zamestnanecRepository.ZiskejZamestnance();
-            foreach (var zamestnanec in zamestnanci)
+            if (Zamestnanec.Count <= 0)
             {
-                Zamestnanec.Add(zamestnanec);
+                var zamestnanci = await Task.Run(_zamestnanecRepository.ZiskejZamestnance);
+                foreach (var zamestnanec in zamestnanci) { Zamestnanec.Add(zamestnanec); }
+            }
+            else { MessageBox.Show("Databáze už je načtená", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning); }                                      
+        }
+
+        private void UlozitZmeny()
+        {
+            try
+            {
+                _zamestnanecRepository.UpravZamestnance(Zamestnanec);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při ukládání změn do databáze:\n{ex.Message}");
             }
         }
-        
+
+        private void VycistitDatagrid()
+        {
+            Zamestnanec.Clear();
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
         protected virtual void OnPropertyChanged(string propertyName)

@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow">
 
-    
+
     <Window.Resources>
         <FontFamily x:Key="Roboto" >/Fonts/#Roboto</FontFamily>
     </Window.Resources>
@@ -74,12 +74,13 @@
                 <TabItem x:Name="SpravaZamestnancuTab" Header="Správa Zaměstnanců" DataContext="{Binding SpravaVM}">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="70*"/>
-                            <RowDefinition Height="550*"/>
-                            <RowDefinition Height="70*"/>
+                            <RowDefinition Height="67*"/>
+                            <RowDefinition Height="325*"/>
+                            <RowDefinition Height="270*"/>
                         </Grid.RowDefinitions>
-                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" HorizontalAlignment="Left" Margin="36,0,0,0" Width="210"/>
-                        <DataGrid ItemsSource="{Binding Zamestnanec}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Grid.Row="1">
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" HorizontalAlignment="Left" Margin="10,0,0,0" Width="135" Height="25"/>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding UlozitDatabaziBT}" Content="Aktualizovat databázi" HorizontalAlignment="Left" Margin="171,0,0,0" Height="25" Width="190"/>
+                        <DataGrid ItemsSource="{Binding Zamestnanec}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Margin="0,67,0,0" Grid.RowSpan="2">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30" CanUserResize="False"/>
                                 <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*"/>
@@ -90,6 +91,8 @@
                                 <DataGridTextColumn Header="Zaměstnán do" Binding="{Binding ZamestnanDo, Converter={StaticResource DateTimeToShortDateStringConverter}, TargetNullValue=''}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding VycistitDatagridBT}" Content="Vyčistit" FontSize="14" Margin="0,41,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
+
                     </Grid>
                 </TabItem>
             </TabControl>

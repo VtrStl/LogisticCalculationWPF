@@ -19,34 +19,68 @@ namespace LogisticCalculationWPF.Model
 
         public ZamestnanecRepository(string connectionString)
         {
-            _connectionString = connectionString;            
+            _connectionString = connectionString;
         }
-        
+
         public ObservableCollection<ZamestnanecModel> ZiskejZamestnance()
         {
             var zamestnanci = new ObservableCollection<ZamestnanecModel>();
 
             using (var connection = new SqlConnection(_connectionString))
-            {                
-                SqlCommand command = new("SELECT * FROM dbo.Zamestnanci", connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();        
-                while(reader.Read()) 
+            {
+                string query = "SELECT * FROM dbo.Zamestnanci";
+                SqlDataAdapter adapter = new(query, connection);
+                DataSet dataSet = new();
+                adapter.Fill(dataSet, "Zamestnanci");
+
+                foreach (DataRow row in dataSet.Tables["Zamestnanci"].Rows)
                 {
                     ZamestnanecModel zamestnanec = new()
                     {
-                        Id = (int)reader["Id"],
-                        Jmeno = (string)reader["Jmeno"],
-                        Prijmeni = (string)reader["Prijmeni"],
-                        Narozeni = DateOnly.FromDateTime((DateTime)reader["Narozeni"]),
-                        PracovniPomer = (string)reader["PracovniPomer"],
-                        ZamestnanOd = DateOnly.FromDateTime((DateTime)reader["ZamestnanOd"]),
-                        ZamestnanDo = reader.IsDBNull(reader.GetOrdinal("ZamestnanDo")) ? null : DateOnly.FromDateTime((DateTime)reader["ZamestnanDo"])
+                        Id = (int)row["Id"],
+                        Jmeno = (string)row["Jmeno"],
+                        Prijmeni = (string)row["Prijmeni"],
+                        Narozeni = DateOnly.FromDateTime((DateTime)row["Narozeni"]),
+                        PracovniPomer = (string)row["PracovniPomer"],
+                        ZamestnanOd = DateOnly.FromDateTime((DateTime)row["ZamestnanOd"]),
+                        ZamestnanDo = row.IsNull("ZamestnanDo") ? null : DateOnly.FromDateTime((DateTime)row["ZamestnanDo"])
                     };
-                    zamestnanci.Add(zamestnanec);                    
-                }                
-            }            
+                    zamestnanci.Add(zamestnanec);
+                }
+            }
             return zamestnanci;
         }
-    }
+
+        public void UpravZamestnance(ObservableCollection<ZamestnanecModel> zamestnanci)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var transaction = connection.BeginTransaction();
+                try
+                {
+                    SqlCommand command = new SqlCommand("UPDATE dbo.Zamestnanci SET Jmeno = @Jmeno, Prijmeni = @Prijmeni, Narozeni = @Narozeni, PracovniPomer = @PracovniPomer, ZamestnanOd = @ZamestnanOd, ZamestnanDo = @ZamestnanDo WHERE Id = @Id", connection, transaction);
+
+                    foreach (var zamestnanec in zamestnanci)
+                    {
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@Id", zamestnanec.Id);
+                        command.Parameters.AddWithValue("@Jmeno", zamestnanec.Jmeno);
+                        command.Parameters.AddWithValue("@Prijmeni", zamestnanec.Prijmeni);
+                        command.Parameters.AddWithValue("@Narozeni", new DateTime(zamestnanec.Narozeni.Year, zamestnanec.Narozeni.Month, zamestnanec.Narozeni.Day));
+                        command.Parameters.AddWithValue("@PracovniPomer", zamestnanec.PracovniPomer);
+                        command.Parameters.AddWithValue("@ZamestnanOd", new DateTime(zamestnanec.ZamestnanOd.Year, zamestnanec.ZamestnanOd.Month, zamestnanec.ZamestnanOd.Day));
+                        command.Parameters.AddWithValue("@ZamestnanDo", zamestnanec.ZamestnanDo.HasValue ? new DateTime(zamestnanec.ZamestnanDo.Value.Year, zamestnanec.ZamestnanDo.Value.Month, zamestnanec.ZamestnanDo.Value.Day) : DBNull.Value);
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Chyba při ukládání změn v databázi.", ex);
+                }
+            }
+        }
+    }    
 }

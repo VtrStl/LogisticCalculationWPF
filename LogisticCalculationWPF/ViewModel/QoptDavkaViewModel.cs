@@ -8,7 +8,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class QoptDavkaViewModel : INotifyPropertyChanged
     {
-        private QoptModel? kalkulace;
+        private QoptModel? qoptModel;
         private ObservableCollection<VysledekQoptDG> vysledekQOPT;
         public ObservableCollection<VysledekQoptDG> VysledekQOPT
         {
@@ -60,15 +60,17 @@ namespace LogisticCalculationWPF.ViewModel
 
         private void Kalkulace()
         {
-            kalkulace = new QoptModel(davka, npz, ns, nj, obdobi);
-            VysledekQOPT.Add(new VysledekQoptDG()
+            qoptModel = new QoptModel(davka, npz, ns, nj, obdobi);
+            var vysledek = new VysledekQoptDG()
             {
                 QoptID = vysledekQOPT.Count + 1,
-                Qopt = kalkulace.Qopt(),
-                PocetDavek = kalkulace.PocetDavek(),
-                PeriodicitaZadavani = kalkulace.PeriodicitaZadavani(),
-                CelkoveNaklady = kalkulace.CelkoveNaklady()
-            });
+                Qopt = qoptModel.Qopt(),
+                PocetDavek = qoptModel.PocetDavek(),
+                PeriodicitaZadavani = qoptModel.PeriodicitaZadavani(),
+                CelkoveNaklady = qoptModel.CelkoveNaklady()
+            };
+            VysledekQOPT.Add(vysledek);
+            OnPropertyChanged(nameof(VysledekQOPT));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };

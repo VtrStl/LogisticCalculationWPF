@@ -10,7 +10,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class PrubeznaDobaViewModel : INotifyPropertyChanged
     {
-        private PrubeznaDobaModel? kalkulace;
+        private PrubeznaDobaModel? prubeznaDobaModel;
         private ObservableCollection<Pracoviste> prubeznaDoba;
         public ObservableCollection<Pracoviste> PrubeznaDoba
         {
@@ -68,34 +68,37 @@ namespace LogisticCalculationWPF.ViewModel
         {
             try
             {
-                kalkulace = new PrubeznaDobaModel(prubeznaDoba, davkaQ, davkaQD, systemZpracovani);
-                VysledekPrubeznaDoba.Add(new VysledekPrubeznaDobaDG()
+                prubeznaDobaModel = new PrubeznaDobaModel(prubeznaDoba, davkaQ, davkaQD, systemZpracovani);
+                var vysledek = new VysledekPrubeznaDobaDG()
                 {
                     PrubeznaDobaID = VysledekPrubeznaDoba.Count + 1,
-                    SystemyPrubeznaDoba = kalkulace.PrubeznaDobaSystemyText(),
-                    PrubeznaDobaVysledek = kalkulace.PrubeznaDobaVysledek(),
+                    SystemyPrubeznaDoba = prubeznaDobaModel.PrubeznaDobaSystemyText(),
+                    PrubeznaDobaVysledek = prubeznaDobaModel.PrubeznaDobaVysledek(),
                     PocetPracovist = PracovisteID - 1,
-                    PocetPracovniku = kalkulace.PocetPracovniku,
+                    PocetPracovniku = prubeznaDobaModel.PocetPracovniku,
                     DavkaQin = DavkaQ,
                     DavkaQDin = DavkaQD
-                });
-
+                };
+                VysledekPrubeznaDoba.Add(vysledek);
+                OnPropertyChanged(nameof(VysledekPrubeznaDoba));
             }
             catch (Exception ex) { MessageBox.Show("Chyba: " + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void PridatPracoviste()
         {
-            prubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteID });
+            PrubeznaDoba.Add(new Pracoviste() { PracovisteNumber = PracovisteID });
             PracovisteID++;
+            OnPropertyChanged(nameof(PrubeznaDoba));
         }
 
         private void OdebratPracoviste()
         {
-            if (prubeznaDoba.Count > 0)
+            if (PrubeznaDoba.Count > 0)
             {
-                prubeznaDoba.RemoveAt(prubeznaDoba.Count - 1);
+                PrubeznaDoba.RemoveAt(prubeznaDoba.Count - 1);
                 PracovisteID--;
+                OnPropertyChanged(nameof(PrubeznaDoba));
             }
         }
 

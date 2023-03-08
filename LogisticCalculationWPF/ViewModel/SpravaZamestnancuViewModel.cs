@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace LogisticCalculationWPF.ViewModel
 {
-    public class SpravaZamestnancuViewModel
+    public class SpravaZamestnancuViewModel : INotifyPropertyChanged
     {
         private readonly ZamestnanecRepository _zamestnanecRepository;
         
@@ -32,6 +32,7 @@ namespace LogisticCalculationWPF.ViewModel
                 }
             }
         }
+        public static int ZamestnanecID;
         public ICommand NacistDatabaziBT { get; }
         public ICommand UlozitDatabaziBT { get; }
         public ICommand VycistitDatagridBT { get; }
@@ -65,6 +66,11 @@ namespace LogisticCalculationWPF.ViewModel
             {
                 MessageBox.Show($"Došlo k chybě při ukládání změn do databáze:\n{ex.Message}");
             }
+        }
+
+        private void Zamestnanec_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void VycistitDatagrid()

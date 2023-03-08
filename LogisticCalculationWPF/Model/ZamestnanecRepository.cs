@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace LogisticCalculationWPF.Model
 {
@@ -26,13 +27,12 @@ namespace LogisticCalculationWPF.Model
         {
             var zamestnanci = new ObservableCollection<ZamestnanecModel>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new(_connectionString))
             {
-                string query = "SELECT * FROM dbo.Zamestnanci";
-                SqlDataAdapter adapter = new(query, connection);
+                SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
                 DataSet dataSet = new();
                 adapter.Fill(dataSet, "Zamestnanci");
-
+                
                 foreach (DataRow row in dataSet.Tables["Zamestnanci"].Rows)
                 {
                     ZamestnanecModel zamestnanec = new()
@@ -53,34 +53,45 @@ namespace LogisticCalculationWPF.Model
 
         public void UpravZamestnance(ObservableCollection<ZamestnanecModel> zamestnanci)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new(_connectionString))
             {
-                connection.Open();
-                var transaction = connection.BeginTransaction();
+                SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
+                DataSet dataSet = new();
+                adapter.Fill(dataSet, "Zamestnanci");                
+                dataSet.Tables["Zamestnanci"].PrimaryKey = new DataColumn[] { dataSet.Tables["Zamestnanci"].Columns["Id"] };
+                
                 try
-                {
-                    SqlCommand command = new SqlCommand("UPDATE dbo.Zamestnanci SET Jmeno = @Jmeno, Prijmeni = @Prijmeni, Narozeni = @Narozeni, PracovniPomer = @PracovniPomer, ZamestnanOd = @ZamestnanOd, ZamestnanDo = @ZamestnanDo WHERE Id = @Id", connection, transaction);
-
+                {                    
                     foreach (var zamestnanec in zamestnanci)
                     {
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@Id", zamestnanec.Id);
-                        command.Parameters.AddWithValue("@Jmeno", zamestnanec.Jmeno);
-                        command.Parameters.AddWithValue("@Prijmeni", zamestnanec.Prijmeni);
-                        command.Parameters.AddWithValue("@Narozeni", new DateTime(zamestnanec.Narozeni.Year, zamestnanec.Narozeni.Month, zamestnanec.Narozeni.Day));
-                        command.Parameters.AddWithValue("@PracovniPomer", zamestnanec.PracovniPomer);
-                        command.Parameters.AddWithValue("@ZamestnanOd", new DateTime(zamestnanec.ZamestnanOd.Year, zamestnanec.ZamestnanOd.Month, zamestnanec.ZamestnanOd.Day));
-                        command.Parameters.AddWithValue("@ZamestnanDo", zamestnanec.ZamestnanDo.HasValue ? new DateTime(zamestnanec.ZamestnanDo.Value.Year, zamestnanec.ZamestnanDo.Value.Month, zamestnanec.ZamestnanDo.Value.Day) : DBNull.Value);
-                        command.ExecuteNonQuery();
-                    }
-                    transaction.Commit();
+                        var row = dataSet.Tables["Zamestnanci"]?.Rows.Find(zamestnanec.Id);
+                        if (row == null)
+                        {
+                            row = dataSet.Tables["Zamestnanci"]?.NewRow();
+                            row["Id"] = zamestnanec.Id;
+                            dataSet.Tables["Zamestnanci"]?.Rows.Add(row);
+                        }
+                        row["Jmeno"] = zamestnanec.Jmeno;
+                        row["Prijmeni"] = zamestnanec.Prijmeni;
+                        row["Narozeni"] = ToDateTime(zamestnanec.Narozeni);
+                        row["PracovniPomer"] = zamestnanec.PracovniPomer;
+                        row["ZamestnanOd"] = ToDateTime(zamestnanec.ZamestnanOd);
+                        row["ZamestnanDo"] = zamestnanec.ZamestnanDo.HasValue ? ToDateTime(zamestnanec.ZamestnanDo.Value) : DBNull.Value;
+                    }                    
+                    var builder = new SqlCommandBuilder(adapter);
+                    adapter.Update(dataSet, "Zamestnanci");
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
-                    throw new Exception("Chyba při ukládání změn v databázi.", ex);
+                    dataSet.RejectChanges();
+                    throw new Exception("Chyba při ukládání změn v databázi: " + ex.Message);
                 }
             }
+        }
+
+        public static DateTime ToDateTime(DateOnly dateOnly)
+        {
+            return new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day);
         }
     }    
 }

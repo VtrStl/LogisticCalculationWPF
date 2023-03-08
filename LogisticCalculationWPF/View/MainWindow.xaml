@@ -73,16 +73,20 @@
                 </TabItem>
                 <TabItem x:Name="SpravaZamestnancuTab" Header="Správa Zaměstnanců" DataContext="{Binding SpravaVM}">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="176*"/>
+                            <ColumnDefinition Width="575*"/>
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="67*"/>
                             <RowDefinition Height="325*"/>
                             <RowDefinition Height="270*"/>
                         </Grid.RowDefinitions>
-                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" HorizontalAlignment="Left" Margin="10,0,0,0" Width="135" Height="25"/>
-                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding UlozitDatabaziBT}" Content="Aktualizovat databázi" HorizontalAlignment="Left" Margin="171,0,0,0" Height="25" Width="190"/>
-                        <DataGrid ItemsSource="{Binding Zamestnanec}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Margin="0,67,0,0" Grid.RowSpan="2">
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" FontSize="14" Width="150" Height="25" Margin="18,24,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding UlozitDatabaziBT}" Content="Aktualizovat databázi" FontSize="14" HorizontalAlignment="Stretch" Margin="5,23,420,0" Height="26" Grid.Column="1" VerticalAlignment="Top"/>
+                        <DataGrid ItemsSource="{Binding Zamestnanec}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Margin="0,67,0,0" Grid.RowSpan="2" CanUserAddRows="True" Grid.ColumnSpan="2">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30" CanUserResize="False"/>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30" CanUserResize="False" IsReadOnly="False"/>
                                 <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*"/>
                                 <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*"/>
                                 <DataGridTextColumn Header="Narození" Binding="{Binding Narozeni, Converter={StaticResource DateTimeToShortDateStringConverter}}" Width="*"/>
@@ -91,8 +95,7 @@
                                 <DataGridTextColumn Header="Zaměstnán do" Binding="{Binding ZamestnanDo, Converter={StaticResource DateTimeToShortDateStringConverter}, TargetNullValue=''}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding VycistitDatagridBT}" Content="Vyčistit" FontSize="14" Margin="0,41,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
-
+                        <Button Style="{StaticResource ButtonStyle}" Command="{Binding VycistitDatagridBT}" Content="Vyčistit" FontSize="14" Margin="0,41,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Grid.Column="1" Height="21"/>
                     </Grid>
                 </TabItem>
             </TabControl>

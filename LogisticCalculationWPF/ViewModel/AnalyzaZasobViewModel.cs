@@ -9,7 +9,7 @@ namespace LogisticCalculationWPF.ViewModel
 {
     public class AnalyzaZasobViewModel : INotifyPropertyChanged
     {
-        private AnalyzaZasobModel? Kalkulace;
+        private AnalyzaZasobModel? analyzaZasobModel;
         private ObservableCollection<VysledekAnalyzaZasobDG> vysledekAnalyzaZasob;
         public ObservableCollection<VysledekAnalyzaZasobDG> VysledekAnalyzaZasob
         {
@@ -68,8 +68,6 @@ namespace LogisticCalculationWPF.ViewModel
         {
             get { return systemyZasob; }
             set { systemyZasob = value; OnPropertyChanged(nameof(SystemyZasob)); }
-
-
         }
 
         public ICommand VypocitejAnalyzaZasob { get; }
@@ -84,15 +82,17 @@ namespace LogisticCalculationWPF.ViewModel
 
         private void AnalyzaZasobVypocet()
         {
-            Kalkulace = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, systemyZasob);
-            VysledekAnalyzaZasob.Add(new VysledekAnalyzaZasobDG()
+            analyzaZasobModel = new AnalyzaZasobModel(spotreba, objednavaciDavka, pojistnaZasoba, pokrytiPoptavky, dodaciLhuta, dnyTydny, intervalKontroly, systemyZasob);
+            var vysledek = new VysledekAnalyzaZasobDG()
             {
                 AnalyzaZasobID = VysledekAnalyzaZasob.Count + 1,
-                SystemAnalyzaZasob = Kalkulace.ObjUrovenText(),
-                ObjednavaciUrovenVysledek = Kalkulace.ObjUrovenVysledek(),
-                PrumernaZasoba = Kalkulace.PrumernaZasoba(),
-                PocetObjednavekZaRok = Kalkulace.PocetObjednavekZaRok()
-            });
+                SystemAnalyzaZasob = analyzaZasobModel.ObjUrovenText(),
+                ObjednavaciUrovenVysledek = analyzaZasobModel.ObjUrovenVysledek(),
+                PrumernaZasoba = analyzaZasobModel.PrumernaZasoba(),
+                PocetObjednavekZaRok = analyzaZasobModel.PocetObjednavekZaRok()
+            };
+            VysledekAnalyzaZasob.Add(vysledek);
+            OnPropertyChanged(nameof(VysledekAnalyzaZasob));
         }
 
         private void Prevod()

@@ -11,5 +11,6 @@ namespace LogisticCalculationWPF.Model
         public string PracovniPomer { get; set; }
         public DateOnly ZamestnanOd { get; set; }
         public DateOnly? ZamestnanDo { get; set; }
+        public bool BylSmazanZamestnanec { get; set; }
     }
 }

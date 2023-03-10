@@ -84,7 +84,7 @@
                         </Grid.RowDefinitions>
                         <Button Style="{StaticResource ButtonStyle}" Command="{Binding NacistDatabaziBT}" Content="Připoj Databázi" FontSize="14" Width="150" Height="25" Margin="18,24,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Button Style="{StaticResource ButtonStyle}" Command="{Binding UlozitDatabaziBT}" Content="Aktualizovat databázi" FontSize="14" HorizontalAlignment="Stretch" Margin="5,23,420,0" Height="26" Grid.Column="1" VerticalAlignment="Top"/>
-                        <DataGrid ItemsSource="{Binding Zamestnanec}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Margin="0,67,0,0" Grid.RowSpan="2" CanUserAddRows="True" Grid.ColumnSpan="2">
+                        <DataGrid ItemsSource="{Binding Zamestnanec, Mode=TwoWay}" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" x:Name="ZamestnanciDG" AutoGenerateColumns="False" Margin="0,67,0,0" Grid.RowSpan="2" CanUserAddRows="True" CanUserDeleteRows="True" Grid.ColumnSpan="2">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="30" CanUserResize="False" IsReadOnly="False"/>
                                 <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*"/>

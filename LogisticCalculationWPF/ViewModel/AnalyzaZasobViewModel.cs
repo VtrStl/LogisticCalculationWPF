@@ -97,7 +97,7 @@ namespace LogisticCalculationWPF.ViewModel
 
         private void Prevod()
         {
-            DnyTydny = Math.Round(Convert.ToDouble(dnyTydny) / 7, 2);
+            DnyTydny = Math.Round(dnyTydny.GetValueOrDefault() / 7, 2);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };

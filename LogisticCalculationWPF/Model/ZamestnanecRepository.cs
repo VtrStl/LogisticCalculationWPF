@@ -50,18 +50,20 @@ namespace LogisticCalculationWPF.Model
             }
             return zamestnanci;
         }
-
+        // Problémová část, při smazání zaměstnance a přidání nového tak nepřeřadí IDs, Když smažu třeba 6 zaměstnance a pak přidám 6 zaměstnance, tak mu to dá ID 7 přitom by mělo dát ID 6,
+        // Přitom idCounter napočítá správný počet, ale do databáze se stejně hodí o číslo navíc
         public void UpravZamestnance(ObservableCollection<ZamestnanecModel> zamestnanci)
         {
             using (SqlConnection connection = new(_connectionString))
             {
                 SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
                 DataSet dataSet = new();
-                adapter.Fill(dataSet, "Zamestnanci");                
+                adapter.Fill(dataSet, "Zamestnanci");
                 dataSet.Tables["Zamestnanci"].PrimaryKey = new DataColumn[] { dataSet.Tables["Zamestnanci"].Columns["Id"] };
-                
+
                 try
-                {                    
+                {
+                    int idCounter = 0;
                     foreach (var zamestnanec in zamestnanci)
                     {
                         var row = dataSet.Tables["Zamestnanci"]?.Rows.Find(zamestnanec.Id);
@@ -77,9 +79,12 @@ namespace LogisticCalculationWPF.Model
                         row["PracovniPomer"] = zamestnanec.PracovniPomer;
                         row["ZamestnanOd"] = ToDateTime(zamestnanec.ZamestnanOd);
                         row["ZamestnanDo"] = zamestnanec.ZamestnanDo.HasValue ? ToDateTime(zamestnanec.ZamestnanDo.Value) : DBNull.Value;
-                    }                    
-                    var builder = new SqlCommandBuilder(adapter);
+                        idCounter++;
+                        row["Id"] = idCounter;
+                    }
+                    SqlCommandBuilder builder = new(adapter);
                     adapter.Update(dataSet, "Zamestnanci");
+                    
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +93,44 @@ namespace LogisticCalculationWPF.Model
                 }
             }
         }
+        
+        public void SmazZamestnance(int id, ObservableCollection<ZamestnanecModel> zamestnanci)
+        {
+            using (SqlConnection connection = new(_connectionString))
+            {
+                SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
 
+                DataSet dataSet = new();
+                adapter.Fill(dataSet, "Zamestnanci");
+                dataSet.Tables["Zamestnanci"].PrimaryKey = new DataColumn[] { dataSet.Tables["Zamestnanci"].Columns["Id"] };
+                try
+                {
+                    var rowToDelete = dataSet.Tables["Zamestnanci"].Rows.Find(id);
+                    if (rowToDelete != null && rowToDelete.RowState != DataRowState.Deleted)
+                    {
+                        rowToDelete.Delete();
+                    }
+                    // Měl by přeřadit zaměstnance po smazání, ale moc to nefunguje jak má
+                    int currentId = 0;
+                    foreach (DataRow row in dataSet.Tables["Zamestnanci"].Rows)
+                    {
+                        if (row.RowState != DataRowState.Deleted)
+                        {
+                            row["Id"] = currentId;
+                            currentId++;
+                        }
+                    }
+                    SqlCommandBuilder builder = new(adapter);
+                    adapter.Update(dataSet, "Zamestnanci");                    
+                }
+                catch (Exception ex) 
+                {
+                    dataSet.RejectChanges();
+                    throw new Exception("Chyba při smazání zaměstnance: " + ex.Message);
+                }                                
+            }
+        }
+    
         public static DateTime ToDateTime(DateOnly dateOnly)
         {
             return new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day);

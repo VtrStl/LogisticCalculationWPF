@@ -47,10 +47,10 @@ namespace LogisticCalculationWPF.ViewModel
                 }
             }
         }
-        public static int ZamestnanecID;
         public ICommand NacistDatabaziBT { get; }
         public ICommand UlozitDatabaziBT { get; }
         public ICommand VycistitDatagridBT { get; }
+        public ICommand PridatZamestnanceBT { get; }
 
         public SpravaZamestnancuViewModel()
         {
@@ -60,8 +60,9 @@ namespace LogisticCalculationWPF.ViewModel
             NacistDatabaziBT = new RelayCommand(NactiDatabazi);
             UlozitDatabaziBT = new RelayCommand(UlozitZmeny);
             VycistitDatagridBT = new RelayCommand(VycistitDatagrid);
+            PridatZamestnanceBT = new RelayCommand(PridatZamestnance);
             Zamestnanec.CollectionChanged += Zamestnanec_CollectionChanged;
-            
+
         }
 
         private async void NactiDatabazi()
@@ -69,7 +70,11 @@ namespace LogisticCalculationWPF.ViewModel
             if (Zamestnanec.Count <= 0)
             {
                 var zamestnanci = await Task.Run(_zamestnanecRepository.ZiskejZamestnance);
-                foreach (var zamestnanec in zamestnanci) { Zamestnanec.Add(zamestnanec); }
+                foreach (var zamestnanec in zamestnanci) 
+                { 
+                    Zamestnanec.Add(zamestnanec);
+                    zamestnanec.PocitadloZamestnancu = Zamestnanec.Count;
+                }
             }
             else { MessageBox.Show("Databáze už je načtená", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning); }                                      
         }
@@ -87,7 +92,11 @@ namespace LogisticCalculationWPF.ViewModel
                     MessageBox.Show($"Došlo k chybě při ukládání změn do databáze:\n{ex.Message}");
                 }
             }
-            else { }
+        }
+        
+        private void PridatZamestnance()
+        {
+            Zamestnanec.Add(new ZamestnanecModel() { PocitadloZamestnancu = Zamestnanec.Count + 1 });
         }
         
         private void Zamestnanec_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

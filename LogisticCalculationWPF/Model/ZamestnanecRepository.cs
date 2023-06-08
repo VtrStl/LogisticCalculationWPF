@@ -32,7 +32,7 @@ namespace LogisticCalculationWPF.Model
                 SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
                 DataSet dataSet = new();
                 adapter.Fill(dataSet, "Zamestnanci");
-                
+
                 foreach (DataRow row in dataSet.Tables["Zamestnanci"].Rows)
                 {
                     ZamestnanecModel zamestnanec = new()
@@ -50,87 +50,61 @@ namespace LogisticCalculationWPF.Model
             }
             return zamestnanci;
         }
-        // Problémová část, při smazání zaměstnance a přidání nového tak nepřeřadí IDs, Když smažu třeba 6 zaměstnance a pak přidám 6 zaměstnance, tak mu to dá ID 7 přitom by mělo dát ID 6,
-        // Přitom idCounter napočítá správný počet, ale do databáze se stejně hodí o číslo navíc
+
         public void UpravZamestnance(ObservableCollection<ZamestnanecModel> zamestnanci)
         {
-            using (SqlConnection connection = new(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
-                DataSet dataSet = new();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM dbo.Zamestnanci", connection);
+                DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet, "Zamestnanci");
                 dataSet.Tables["Zamestnanci"].PrimaryKey = new DataColumn[] { dataSet.Tables["Zamestnanci"].Columns["Id"] };
-
-                try
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                int maxId = dataSet.Tables["Zamestnanci"].AsEnumerable()
+                    .Max(row => row.Field<int>("Id"));
+                foreach (var zamestnanec in zamestnanci)
                 {
-                    int idCounter = 0;
-                    foreach (var zamestnanec in zamestnanci)
+                    var row = dataSet.Tables["Zamestnanci"].Rows.Find(zamestnanec.Id);
+                    if (row == null)
                     {
-                        var row = dataSet.Tables["Zamestnanci"]?.Rows.Find(zamestnanec.Id);
-                        if (row == null)
-                        {
-                            row = dataSet.Tables["Zamestnanci"]?.NewRow();
-                            row["Id"] = zamestnanec.Id;
-                            dataSet.Tables["Zamestnanci"]?.Rows.Add(row);
-                        }
-                        row["Jmeno"] = zamestnanec.Jmeno;
-                        row["Prijmeni"] = zamestnanec.Prijmeni;
-                        row["Narozeni"] = ToDateTime(zamestnanec.Narozeni);
-                        row["PracovniPomer"] = zamestnanec.PracovniPomer;
-                        row["ZamestnanOd"] = ToDateTime(zamestnanec.ZamestnanOd);
-                        row["ZamestnanDo"] = zamestnanec.ZamestnanDo.HasValue ? ToDateTime(zamestnanec.ZamestnanDo.Value) : DBNull.Value;
-                        idCounter++;
-                        row["Id"] = idCounter;
+                        row = dataSet.Tables["Zamestnanci"].NewRow();
+                        maxId++;
+                        row["Id"] = maxId;
+
+                        dataSet.Tables["Zamestnanci"].Rows.Add(row);
                     }
-                    SqlCommandBuilder builder = new(adapter);
-                    adapter.Update(dataSet, "Zamestnanci");
-                    
+                    row["Jmeno"] = zamestnanec.Jmeno;
+                    row["Prijmeni"] = zamestnanec.Prijmeni;
+                    row["Narozeni"] = ToDateTime(zamestnanec.Narozeni);
+                    row["PracovniPomer"] = zamestnanec.PracovniPomer;
+                    row["ZamestnanOd"] = ToDateTime(zamestnanec.ZamestnanOd);
+                    row["ZamestnanDo"] = zamestnanec.ZamestnanDo.HasValue ? ToDateTime(zamestnanec.ZamestnanDo.Value) : DBNull.Value;
                 }
-                catch (Exception ex)
-                {
-                    dataSet.RejectChanges();
-                    throw new Exception("Chyba při ukládání změn v databázi: " + ex.Message);
-                }
+                // Update the database with changes made to the data in the DataSet
+                adapter.UpdateCommand = builder.GetUpdateCommand();
+                adapter.Update(dataSet, "Zamestnanci");
             }
         }
-        
+
         public void SmazZamestnance(int id, ObservableCollection<ZamestnanecModel> zamestnanci)
         {
-            using (SqlConnection connection = new(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlDataAdapter adapter = new("SELECT * FROM dbo.Zamestnanci", connection);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM dbo.Zamestnanci", connection);
 
-                DataSet dataSet = new();
+                DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet, "Zamestnanci");
                 dataSet.Tables["Zamestnanci"].PrimaryKey = new DataColumn[] { dataSet.Tables["Zamestnanci"].Columns["Id"] };
-                try
+                var rowToDelete = dataSet.Tables["Zamestnanci"].Rows.Find(id);
+                if (rowToDelete != null && rowToDelete.RowState != DataRowState.Deleted)
                 {
-                    var rowToDelete = dataSet.Tables["Zamestnanci"].Rows.Find(id);
-                    if (rowToDelete != null && rowToDelete.RowState != DataRowState.Deleted)
-                    {
-                        rowToDelete.Delete();
-                    }
-                    // Měl by přeřadit zaměstnance po smazání, ale moc to nefunguje jak má
-                    int currentId = 0;
-                    foreach (DataRow row in dataSet.Tables["Zamestnanci"].Rows)
-                    {
-                        if (row.RowState != DataRowState.Deleted)
-                        {
-                            row["Id"] = currentId;
-                            currentId++;
-                        }
-                    }
-                    SqlCommandBuilder builder = new(adapter);
-                    adapter.Update(dataSet, "Zamestnanci");                    
+                    rowToDelete.Delete();
                 }
-                catch (Exception ex) 
-                {
-                    dataSet.RejectChanges();
-                    throw new Exception("Chyba při smazání zaměstnance: " + ex.Message);
-                }                                
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                adapter.Update(dataSet, "Zamestnanci");
             }
         }
-    
+
         public static DateTime ToDateTime(DateOnly dateOnly)
         {
             return new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day);

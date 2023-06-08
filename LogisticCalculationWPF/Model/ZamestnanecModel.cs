@@ -5,6 +5,7 @@ namespace LogisticCalculationWPF.Model
     public class ZamestnanecModel
     {
         public int Id { get; set; }
+        public int PocitadloZamestnancu { get; set; }
         public string Jmeno { get; set; }
         public string Prijmeni { get; set; }
         public DateOnly Narozeni { get; set; }

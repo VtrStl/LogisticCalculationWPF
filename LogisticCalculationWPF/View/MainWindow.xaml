@@ -73,7 +73,7 @@
                     <UserControl:PrubeznaDobaUserControl DataContext="{Binding PrubeznaDobaVM}"/>
                 </TabItem>
                 <TabItem x:Name="SpravaZamestnancuTab" Header="Správa Zaměstnanců">
-                    <UserControl:SpravaZamestnancuUserControl/>
+                    <UserControl:SpravaZamestnancuUserControl DataContext="{Binding SpravaVM}"/>
                 </TabItem>
             </TabControl>
         </Grid>
